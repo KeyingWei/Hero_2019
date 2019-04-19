@@ -1,0 +1,12 @@
+..\obj\ahrs_middleware.o: ..\AHRS\AHRS_middleware.c
+..\obj\ahrs_middleware.o: ..\AHRS\AHRS_MiddleWare.h
+..\obj\ahrs_middleware.o: ..\AHRS\AHRS.h
+..\obj\ahrs_middleware.o: ..\DSP\Include\arm_math.h
+..\obj\ahrs_middleware.o: ..\CORE\core_cm4.h
+..\obj\ahrs_middleware.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\ahrs_middleware.o: ..\CORE\core_cmInstr.h
+..\obj\ahrs_middleware.o: ..\CORE\core_cmFunc.h
+..\obj\ahrs_middleware.o: ..\CORE\core_cm4_simd.h
+..\obj\ahrs_middleware.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\ahrs_middleware.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\ahrs_middleware.o: ..\USER\main.h
