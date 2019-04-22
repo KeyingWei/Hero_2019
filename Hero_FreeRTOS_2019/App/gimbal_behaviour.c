@@ -25,6 +25,8 @@
 
 #include "user_lib.h"
 
+
+static void gimbal_auto_aim_control(fp32 *yaw, fp32 *pitch, Gimbal_Control_t *gimbal_control_set);
 ////云台校准蜂鸣器响声
 //#define GIMBALWarnBuzzerOn() buzzer_on(31, 20000)
 //#define GIMBALWarnBuzzerOFF() buzzer_off()
@@ -189,9 +191,14 @@ void gimbal_behaviour_mode_set(Gimbal_Control_t *gimbal_mode_set)
     }
     else if (gimbal_behaviour == GIMBAL_MOTIONLESS)
     {
-        gimbal_mode_set->gimbal_yaw_motor.gimbal_motor_mode = GIMBAL_MOTOR_ENCONDE;
+        gimbal_mode_set->gimbal_yaw_motor.gimbal_motor_mode   = GIMBAL_MOTOR_GYRO;
         gimbal_mode_set->gimbal_pitch_motor.gimbal_motor_mode = GIMBAL_MOTOR_ENCONDE;
     }
+	else if(gimbal_behaviour == GIMBAL_AUTO_AIM)
+	{
+        gimbal_mode_set->gimbal_yaw_motor.gimbal_motor_mode   = GIMBAL_MOTOR_GYRO;
+        gimbal_mode_set->gimbal_pitch_motor.gimbal_motor_mode = GIMBAL_MOTOR_ENCONDE;	
+	}
 }
 
 /**
@@ -218,7 +225,7 @@ void gimbal_behaviour_control_set(fp32 *add_yaw, fp32 *add_pitch, Gimbal_Control
     rc_deadline_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[PitchChannel], pitch_channel, RC_deadband);
 
     rc_add_yaw = yaw_channel * Yaw_RC_SEN - gimbal_control_set->gimbal_rc_ctrl->mouse.x * Yaw_Mouse_Sen;
-    rc_add_pit = - pitch_channel * Pitch_RC_SEN + gimbal_control_set->gimbal_rc_ctrl->mouse.y * Pitch_Mouse_Sen;
+    rc_add_pit = - pitch_channel * Pitch_RC_SEN - gimbal_control_set->gimbal_rc_ctrl->mouse.y * Pitch_Mouse_Sen;
 
     if (gimbal_behaviour == GIMBAL_ZERO_FORCE)
     {
@@ -245,6 +252,12 @@ void gimbal_behaviour_control_set(fp32 *add_yaw, fp32 *add_pitch, Gimbal_Control
     {
         gimbal_motionless_control(&rc_add_yaw, &rc_add_pit, gimbal_control_set);
     }
+	else if(gimbal_behaviour == GIMBAL_AUTO_AIM)
+	{
+		gimbal_auto_aim_control(&rc_add_yaw, &rc_add_pit, gimbal_control_set);
+	}
+		
+		
     //将控制增加量赋值
     *add_yaw = rc_add_yaw;
     *add_pitch = rc_add_pit;
@@ -369,6 +382,20 @@ static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
     {
         gimbal_behaviour = GIMBAL_ABSOLUTE_ANGLE;
     }
+	
+	if((gimbal_mode_set->gimbal_rc_ctrl->key.v & VisonONKeyBoard) != 0 )
+	{
+		gimbal_mode_set->auto_aim_flag = 1;		
+	}
+	else if((gimbal_mode_set->gimbal_rc_ctrl->key.v & VisonOFFKeyBoard) != 0 && gimbal_mode_set->auto_aim_flag == 1)
+	{
+	    gimbal_mode_set->auto_aim_flag = 0;
+	}
+	
+	if(gimbal_mode_set->auto_aim_flag == 1 && !switch_is_down(gimbal_mode_set->gimbal_rc_ctrl->rc.s[ModeChannel]))
+	{
+	    gimbal_behaviour = GIMBAL_AUTO_AIM;
+	}
 
     if( toe_is_error(DBUSTOE))
     {
@@ -402,7 +429,7 @@ static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
             motionless_time = 0;
         }
 
-        if (motionless_time == GIMBAL_MOTIONLESS_TIME_MAX)
+        if (motionless_time == GIMBAL_MOTIONLESS_TIME_MAX && gimbal_mode_set->auto_aim_flag == 0)
         {
             gimbal_behaviour = GIMBAL_MOTIONLESS;
         }
@@ -604,4 +631,51 @@ static void gimbal_motionless_control(fp32 *yaw, fp32 *pitch, Gimbal_Control_t *
     }
     *yaw = 0.0f;
     *pitch = 0.0f;
+}
+
+/**
+  * @brief          云台进入辅助瞄准模式，电机是相对角度控制，
+  * @author         RM
+  * @param[in]      yaw轴角度控制，为角度的增量 单位 rad
+  * @param[in]      pitch轴角度控制，为角度的增量 单位 rad
+  * @param[in]      云台数据指针
+  * @retval         返回空
+  */
+
+float ration_y = 0.0009f,ration_p=0.0009f;
+static void gimbal_auto_aim_control(fp32 *yaw, fp32 *pitch, Gimbal_Control_t *gimbal_control_set)
+{
+//    if (yaw == NULL || pitch == NULL || gimbal_control_set == NULL)
+//    {
+//        return;
+//    }
+//    if(gimbal_control_set->autodata->YawAxiaAngle > 0.087f )
+//    {
+//	    *yaw = ration_y;
+//	}
+//	else if(gimbal_control_set->autodata->YawAxiaAngle < -0.087f)
+//	{
+//	   *yaw = -ration_y;
+//	}
+//	else
+//	{
+//	   *yaw = 0.0f;
+//	}
+//	
+//	if(gimbal_control_set->autodata->PitchAxiaAngle > 0.087f )
+//	{
+//	    *pitch  = ration_p;
+//	}
+//	else if( gimbal_control_set->autodata->PitchAxiaAngle < -0.087f)
+//	{
+//		*pitch = -ration_p;
+//	}
+//	else
+//	{
+//	  *pitch  = 0.0f;
+//	}
+		
+		
+	*yaw   = 0;//gimbal_control_set->autodata->YawAxiaAngle * ration_y;
+	*pitch = 0;// gimbal_control_set->autodata->PitchAxiaAngle * ration_p ;	
 }

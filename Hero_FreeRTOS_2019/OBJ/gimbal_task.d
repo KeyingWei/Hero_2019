@@ -1,8 +1,7 @@
 ..\obj\gimbal_task.o: ..\App\gimbal_task.c
 ..\obj\gimbal_task.o: ..\App\gimbal_task.h
 ..\obj\gimbal_task.o: ..\USER\main.h
-..\obj\gimbal_task.o: ..\App\pid.h
-..\obj\gimbal_task.o: ..\BSP\RemotDbus.h
+..\obj\gimbal_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\gimbal_task.o: ..\USER\stm32f4xx.h
 ..\obj\gimbal_task.o: ..\CORE\core_cm4.h
 ..\obj\gimbal_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -40,9 +39,12 @@
 ..\obj\gimbal_task.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\gimbal_task.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\gimbal_task.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\gimbal_task.o: ..\App\pid.h
+..\obj\gimbal_task.o: ..\BSP\RemotDbus.h
 ..\obj\gimbal_task.o: ..\BSP\MotorCAN.h
 ..\obj\gimbal_task.o: ..\USER\pid_modify.h
 ..\obj\gimbal_task.o: ..\App\user_lib.h
+..\obj\gimbal_task.o: ..\Task\Auto_attackTask.h
 ..\obj\gimbal_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
 ..\obj\gimbal_task.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\gimbal_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

@@ -58,3 +58,4 @@
 ..\obj\usart.o: ..\BSP\MotorCAN.h
 ..\obj\usart.o: ..\FreeRTOS\include\event_groups.h
 ..\obj\usart.o: ..\FreeRTOS\include\timers.h
+..\obj\usart.o: ..\USER\main.h

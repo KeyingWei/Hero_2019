@@ -46,7 +46,7 @@ typedef __packed struct
 
 
 extern AUTODATA AutoData;
-extern volatile  u8 mainfocus_rx_buffer[10];
+extern uint8_t mainfocus_rx_buffer[2][100];
 
 void TerminalCommand_receive_AUTO(void);
 void send_data(char mode, u8 cmd2);
@@ -56,7 +56,8 @@ void ARMOR_MODE_BLUE(void);
 void RUND_MODE(void);
 
 void MainFocusConfig(void);
-void receiveMainFocusData(void);
+void receiveMainFocusData(uint8_t *buf);
+AUTODATA *GetAutoDataPoint(void);
 
 #endif
 

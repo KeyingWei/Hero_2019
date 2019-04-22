@@ -6,7 +6,7 @@
 #include "RemotDbus.h"
 #include "MotorCAN.h"
 #include "user_lib.h"
-
+#include "Auto_attackTask.h"
 
 //pitch 速度环 PID参数以及 PID最大输出，积分输出
 #define PITCH_SPEED_PID_KP 2400.0f//2000.0f
@@ -69,6 +69,14 @@
 
 //测试按键尚未使用
 #define TestKeyBoard KEY_PRESSED_OFFSET_R
+
+//辅助射击按键
+#define VisonONKeyBoard KEY_PRESSED_OFFSET_Z
+#define VisonOFFKeyBoard KEY_PRESSED_OFFSET_X
+
+#define SwitchEnemyColor_Red_KeyBoard KEY_PRESSED_OFFSET_R
+#define SwitchEnemyColor_Blue_KeyBoard KEY_PRESSED_OFFSET_G
+
 
 //遥控器输入死区，因为遥控器存在差异，摇杆在中间，其值不一定为零
 #define RC_deadband 10
@@ -182,8 +190,7 @@ typedef struct
     fp32 motor_speed;
     fp32 raw_cmd_current;
     fp32 current_set;
-    int16_t given_current;
-
+    int16_t given_current;	
 } Gimbal_Motor_t;
 
 typedef struct
@@ -207,8 +214,11 @@ typedef struct
     Gimbal_Motor_t gimbal_yaw_motor;
     Gimbal_Motor_t gimbal_pitch_motor;
     Gimbal_Cali_t gimbal_cali;
+	AUTODATA *autodata;
+	char auto_aim_flag;
 } Gimbal_Control_t;
-
+extern int8_t getPitchAngle(void);
+extern int8_t getEenmyColor(void);
 extern const Gimbal_Motor_t *get_yaw_motor_point(void);
 extern const Gimbal_Motor_t *get_pitch_motor_point(void);
 extern void GIMBAL_task(void *pvParameters);

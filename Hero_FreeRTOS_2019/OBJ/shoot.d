@@ -1,7 +1,7 @@
 ..\obj\shoot.o: ..\App\shoot.c
 ..\obj\shoot.o: ..\App\Shoot.h
 ..\obj\shoot.o: ..\USER\main.h
-..\obj\shoot.o: ..\BSP\MotorCan.h
+..\obj\shoot.o: ..\SYSTEM\sys\sys.h
 ..\obj\shoot.o: ..\USER\stm32f4xx.h
 ..\obj\shoot.o: ..\CORE\core_cm4.h
 ..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -39,15 +39,16 @@
 ..\obj\shoot.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\shoot.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\shoot.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\shoot.o: ..\BSP\MotorCan.h
 ..\obj\shoot.o: ..\USER\pid_modify.h
 ..\obj\shoot.o: ..\BSP\RemotDbus.h
 ..\obj\shoot.o: ..\App\user_lib.h
 ..\obj\shoot.o: ..\App\Gimbal_Task.h
 ..\obj\shoot.o: ..\App\pid.h
+..\obj\shoot.o: ..\Task\Auto_attackTask.h
 ..\obj\shoot.o: ..\App\gimbal_behaviour.h
 ..\obj\shoot.o: ..\App\Detect_Task.h
 ..\obj\shoot.o: ..\BSP\BasicPeripherals.h
-..\obj\shoot.o: ..\SYSTEM\sys\sys.h
 ..\obj\shoot.o: ..\DSP\Include\arm_math.h
 ..\obj\shoot.o: ..\CORE\core_cm4.h
 ..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

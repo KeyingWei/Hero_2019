@@ -1,6 +1,6 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
-
+#include "sys.h"
 
 typedef signed char int8_t;
 typedef signed short int int16_t;
@@ -15,6 +15,8 @@ typedef unsigned long long uint64_t;
 typedef unsigned char bool_t;
 typedef float fp32;
 typedef double fp64;
+
+#define USART_FOR_PRINT 2    //设置串口打印使用的串口，2 --uart2  3 --uart3  other--uart6
 
 #define SysCoreClock 180
 

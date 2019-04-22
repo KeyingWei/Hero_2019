@@ -37,6 +37,7 @@
 #include "RemotDbus.h"
 #include "MotorCAN.h"
 #include "detect_task.h"
+#include "Auto_attackTask.h"
  
 
 /** @addtogroup Template_Project
@@ -295,15 +296,62 @@ void TIM2_IRQHandler(void)
 		}
 } 
 
-void DMA1_Stream1_IRQHandler()
+uint16_t failcnt = 0;
+void USART3_IRQHandler()
 {
-  if(DMA_GetFlagStatus(DMA1_Stream1,DMA_IT_TCIF1)==SET) 
-	{
-		DMA_ClearFlag(DMA1_Stream1,DMA_IT_TCIF1); 
-		DMA_ClearITPendingBit(DMA1_Stream1,DMA_IT_TCIF1);		
-
-        receiveMainFocusData();		
-	}
+   if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+    {
+        USART_ReceiveData(USART3);
+    }
+    else if (USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
+    {  
+		
+		static uint16_t this_time_rx_len = 0;
+        USART_ReceiveData(USART3);
+		
+		
+       if(DMA_GetCurrentMemoryTarget(DMA1_Stream1) == 0)
+        {
+			 //重新设置DMA
+            DMA_Cmd(DMA1_Stream1, DISABLE);
+            this_time_rx_len = 100 - DMA_GetCurrDataCounter(DMA1_Stream1);
+			DMA_SetCurrDataCounter(DMA1_Stream1, 100);
+            DMA1_Stream1->CR |= DMA_SxCR_CT;//当前目标存储器为存储器1
+		    DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1 | DMA_FLAG_HTIF1);
+            DMA_Cmd(DMA1_Stream1, ENABLE);
+			
+			if(this_time_rx_len == 8)
+            {
+                 //处理裁判系统数据
+			   receiveMainFocusData((uint8_t *)mainfocus_rx_buffer[0]);	//read data 
+            }
+			else
+			{
+			   failcnt++;
+			}
+		}
+		else
+		{
+			 //重新设置DMA
+            DMA_Cmd(DMA1_Stream1, DISABLE);
+            this_time_rx_len = 100 - DMA_GetCurrDataCounter(DMA1_Stream1);
+			DMA_SetCurrDataCounter(DMA1_Stream1, 100);
+            DMA1_Stream1->CR |= DMA_SxCR_CT;//当前目标存储器为存储器1
+		    DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1 | DMA_FLAG_HTIF1);
+            DMA_Cmd(DMA1_Stream1, ENABLE);
+			
+			if(this_time_rx_len == 8)
+            {
+                 //处理裁判系统数据
+			   receiveMainFocusData((uint8_t *)mainfocus_rx_buffer[1]);	//read data 
+            }
+			else
+			{
+			   failcnt++;
+			}		   
+		}		     		
+    }  
+    __nop(); 
 }
 
 

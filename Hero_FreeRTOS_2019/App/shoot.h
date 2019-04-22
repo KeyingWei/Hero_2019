@@ -124,7 +124,7 @@
 #define TRIGGER_42_READY_PID_MAX_IOUT 2500.0f
 
 //摩擦轮电机速度 单位rad/s
-#define FRIC_MOTOR_SPEED 6.0f
+#define FRIC_MOTOR_SPEED 8.0f
 
 typedef struct
 {

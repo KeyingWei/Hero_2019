@@ -1,9 +1,7 @@
 ..\obj\gimbal_behaviour.o: ..\App\gimbal_behaviour.c
 ..\obj\gimbal_behaviour.o: ..\App\gimbal_behaviour.h
 ..\obj\gimbal_behaviour.o: ..\USER\main.h
-..\obj\gimbal_behaviour.o: ..\App\Gimbal_Task.h
-..\obj\gimbal_behaviour.o: ..\App\pid.h
-..\obj\gimbal_behaviour.o: ..\BSP\RemotDbus.h
+..\obj\gimbal_behaviour.o: ..\SYSTEM\sys\sys.h
 ..\obj\gimbal_behaviour.o: ..\USER\stm32f4xx.h
 ..\obj\gimbal_behaviour.o: ..\CORE\core_cm4.h
 ..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -41,9 +39,13 @@
 ..\obj\gimbal_behaviour.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\gimbal_behaviour.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\gimbal_behaviour.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\gimbal_behaviour.o: ..\App\Gimbal_Task.h
+..\obj\gimbal_behaviour.o: ..\App\pid.h
+..\obj\gimbal_behaviour.o: ..\BSP\RemotDbus.h
 ..\obj\gimbal_behaviour.o: ..\BSP\MotorCAN.h
 ..\obj\gimbal_behaviour.o: ..\USER\pid_modify.h
 ..\obj\gimbal_behaviour.o: ..\App\user_lib.h
+..\obj\gimbal_behaviour.o: ..\Task\Auto_attackTask.h
 ..\obj\gimbal_behaviour.o: ..\DSP\Include\arm_math.h
 ..\obj\gimbal_behaviour.o: ..\CORE\core_cm4.h
 ..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

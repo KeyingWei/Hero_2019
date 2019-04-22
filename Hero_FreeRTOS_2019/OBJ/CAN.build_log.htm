@@ -27,14 +27,39 @@ Project File Date:  04/18/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'D:\Software\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Infatry_V2'
-"..\OBJ\CAN.axf" - 0 Error(s), 0 Warning(s).
+compiling gimbal_task.c...
+..\App\gimbal_task.c(60): warning:  #550-D: variable "PreviousWakeTime"  was set but never used
+  	TickType_t PreviousWakeTime;
+..\App\gimbal_task.c(61): warning:  #177-D: variable "TimerIncrement"  was declared but never referenced
+  	const TickType_t TimerIncrement =  pdMS_TO_TICKS(GIMBAL_CONTROL_TIME);
+..\App\gimbal_task.c(199): warning:  #550-D: variable "last_p"  was set but never used
+  	static float last_p = 0.0f,last_y = 0.0f;
+..\App\gimbal_task.c(199): warning:  #550-D: variable "last_y"  was set but never used
+  	static float last_p = 0.0f,last_y = 0.0f;
+..\App\gimbal_task.c(201): warning:  #177-D: variable "Pitch_speed_pid"  was declared but never referenced
+  	static const fp32 Pitch_speed_pid[3] = {PITCH_SPEED_PID_KP, PITCH_SPEED_PID_KI, PITCH_SPEED_PID_KD};
+..\App\gimbal_task.c(202): warning:  #177-D: variable "Yaw_speed_pid"  was declared but never referenced
+      static const fp32 Yaw_speed_pid[3]   = {YAW_SPEED_PID_KP, YAW_SPEED_PID_KI, YAW_SPEED_PID_KD};
+..\App\gimbal_task.c(204): warning:  #177-D: variable "Pitch_aim_speed_pid"  was declared but never referenced
+      static const fp32 Pitch_aim_speed_pid[3] = {1000.0f, 0.0f, 0.0f};
+..\App\gimbal_task.c(205): warning:  #177-D: variable "Yaw_aim_speed_pid"  was declared but never referenced
+      static const fp32 Yaw_aim_speed_pid[3]   = {10000.0f, 0.0f, 0.0f};
+..\App\gimbal_task.c(597): warning:  #177-D: variable "temp_max_ecd"  was declared but never referenced
+      int16_t temp_max_ecd = 0, temp_min_ecd = 0, temp_ecd = 0;
+..\App\gimbal_task.c(597): warning:  #177-D: variable "temp_min_ecd"  was declared but never referenced
+      int16_t temp_max_ecd = 0, temp_min_ecd = 0, temp_ecd = 0;
+..\App\gimbal_task.c: 10 warnings, 0 errors
+linking...
+Program Size: Code=68966 RO-data=3662 RW-data=568 ZI-data=82208  
+FromELF: creating hex file...
+"..\OBJ\CAN.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_Infatry_V2
   D:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

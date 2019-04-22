@@ -1,6 +1,7 @@
 ..\obj\mpu6500driver_middleware.o: ..\AHRS\mpu6500driver_middleware.c
 ..\obj\mpu6500driver_middleware.o: ..\AHRS\mpu6500driver_middleware.h
 ..\obj\mpu6500driver_middleware.o: ..\USER\main.h
+..\obj\mpu6500driver_middleware.o: ..\SYSTEM\sys\sys.h
 ..\obj\mpu6500driver_middleware.o: ..\USER\stm32f4xx.h
 ..\obj\mpu6500driver_middleware.o: ..\CORE\core_cm4.h
 ..\obj\mpu6500driver_middleware.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -39,5 +40,4 @@
 ..\obj\mpu6500driver_middleware.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\mpu6500driver_middleware.o: ..\FWLIB\inc\stm32f4xx_sai.h
 ..\obj\mpu6500driver_middleware.o: ..\SYSTEM\delay\delay.h
-..\obj\mpu6500driver_middleware.o: ..\SYSTEM\sys\sys.h
 ..\obj\mpu6500driver_middleware.o: ..\BSP\spi.h

@@ -1,6 +1,7 @@
 ..\obj\exit_init.o: ..\BSP\exit_init.c
 ..\obj\exit_init.o: ..\BSP\exit_init.h
 ..\obj\exit_init.o: ..\USER\main.h
+..\obj\exit_init.o: ..\SYSTEM\sys\sys.h
 ..\obj\exit_init.o: ..\USER\stm32f4xx.h
 ..\obj\exit_init.o: ..\CORE\core_cm4.h
 ..\obj\exit_init.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

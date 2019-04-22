@@ -1,6 +1,7 @@
 ..\obj\power_ctrl.o: ..\BSP\power_ctrl.c
 ..\obj\power_ctrl.o: ..\BSP\power_ctrl.h
 ..\obj\power_ctrl.o: ..\USER\main.h
+..\obj\power_ctrl.o: ..\SYSTEM\sys\sys.h
 ..\obj\power_ctrl.o: ..\USER\stm32f4xx.h
 ..\obj\power_ctrl.o: ..\CORE\core_cm4.h
 ..\obj\power_ctrl.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

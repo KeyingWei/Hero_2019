@@ -1,15 +1,17 @@
 #include "Referee.h"
 #include <string.h>
+#include "stdbool.h"
 /** 
 * @brief: read the data of referee system
 * @write by: WKY
 */
-static u8 Rx_Buf_Referee[AHRS_RC_LEN]={0};		//定义接收缓冲 
-u16 Usart1_RX_Cou = 0;
-u8 Usart1_RX_Flag = 0;
+static u8 Rx_Buf_Referee[2][AHRS_RC_LEN]={0};		//定义接收缓冲 
+
+Referee_Date Referee_date1;
 
 unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
-static  void Referee_read_date(void); 
+static void Referee_read_hook(uint8_t *rx_buf,uint8_t len);
+uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength);
 
 void Referee_init(void)
 {
@@ -18,44 +20,46 @@ void Referee_init(void)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	DMA_InitTypeDef DMA_InitStructure;
 	
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);	//使能USART1，GPIOA时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);	//使能USART6，GPIOG ,DMA2时钟
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG,ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2,ENABLE);
 	
 	GPIO_PinAFConfig(GPIOG,GPIO_PinSource9,GPIO_AF_USART6);
     GPIO_PinAFConfig(GPIOG,GPIO_PinSource14,GPIO_AF_USART6);
-	//USART1_TX   GPIOA.9
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9 ; //GPIOA9与GPIOA10
+	//USART6_TX   GPIOA9
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9 | GPIO_PinSource14 ; 
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;//复用功能
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;	//速度50MHz
 	GPIO_InitStruct.GPIO_OType = GPIO_OType_PP; //推挽复用输出
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP; //上拉
-	GPIO_Init(GPIOG,&GPIO_InitStruct); //初始化PA9，PA10
+	GPIO_Init(GPIOG,&GPIO_InitStruct); 
 	
 
-  DMA_DeInit(DMA2_Stream2);   //将DMA的通道1寄存器重设为缺省值
-	
-  DMA_Cmd(DMA2_Stream2, DISABLE);						
-  while (DMA_GetCmdStatus(DMA2_Stream2) != DISABLE);  
+	DMA_DeInit(DMA2_Stream1);   //将DMA的通道1寄存器重设为缺省值
+
+	DMA_Cmd(DMA2_Stream1, DISABLE);						
+	while (DMA_GetCmdStatus(DMA2_Stream1) != DISABLE);  
 	DMA_InitStructure.DMA_Channel = DMA_Channel_5;  //通道选择
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&USART6->DR;//DMA外设地址
-  DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)Rx_Buf_Referee;//DMA 存储器0地址
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;//存储器到外设模式
-  DMA_InitStructure.DMA_BufferSize = AHRS_RC_LEN;//数据传输量 
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//外设非增量模式
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//存储器增量模式
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;//外设数据长度:8位
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;//存储器数据长度:8位
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;// 使用循环模式 
-  DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;//中等优先级
-  DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;         
-  DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
-  DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;//存储器突发单次传输
-  DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;//外设突发单次传输
-  DMA_Init(DMA2_Stream2, &DMA_InitStructure);//初始化DMA Stream
-	
-//	DMA_ITConfig(DMA2_Stream1,DMA_IT_TC,ENABLE);
-  DMA_Cmd(DMA2_Stream2,ENABLE);
+	DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&USART6->DR;//DMA外设地址
+	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)Rx_Buf_Referee[0];//DMA 存储器0地址
+	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;//存储器到外设模式
+	DMA_InitStructure.DMA_BufferSize = AHRS_RC_LEN;//数据传输量 
+	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//外设非增量模式
+	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//存储器增量模式
+	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;//外设数据长度:8位
+	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;//存储器数据长度:8位
+	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;// 使用循环模式 
+	DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;//中等优先级
+	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;         
+	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;//存储器突发单次传输
+	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;//外设突发单次传输
+	DMA_Init(DMA2_Stream1, &DMA_InitStructure);//初始化DMA Stream
+	//开启双缓冲，首先存储DMA_Memory_0
+	DMA_DoubleBufferModeConfig(DMA2_Stream1, (uint32_t)Rx_Buf_Referee[1], DMA_Memory_0);
+	DMA_DoubleBufferModeCmd(DMA2_Stream1, ENABLE);
+	DMA_Cmd(DMA2_Stream1, DISABLE); //Add a disable
+	DMA_Cmd(DMA2_Stream1, ENABLE);
 
 
    //USART 初始化设置
@@ -65,15 +69,15 @@ void Referee_init(void)
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;//一个停止位
 	USART_InitStructure.USART_Parity = USART_Parity_No;//无奇偶校验位
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
-	USART_InitStructure.USART_Mode = USART_Mode_Rx ;	//收发模式
-
-    USART_Init(USART6, &USART_InitStructure); //初始化串口1
-                    //使能串口1 
-	USART_Cmd(USART6, ENABLE);  
+	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
+    USART_Init(USART6, &USART_InitStructure); //初始化串口6
+	
+	USART_ClearFlag(USART6, USART_FLAG_IDLE);	
     USART_ITConfig(USART6,USART_IT_TC,DISABLE);       
     USART_ITConfig(USART6,USART_IT_RXNE,DISABLE);    
 	USART_ITConfig(USART6, USART_IT_IDLE, ENABLE);
-	  
+	USART_DMACmd(USART6,USART_DMAReq_Rx,ENABLE);
+	USART_Cmd(USART6, ENABLE); 	
 	 
 	 NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3; 
@@ -81,7 +85,7 @@ void Referee_init(void)
      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                         
      NVIC_Init(&NVIC_InitStructure);        
 
-	 USART_DMACmd(USART6,USART_DMAReq_Rx,ENABLE);	
+
 }
  
  
@@ -89,22 +93,52 @@ void USART6_IRQHandler(void)
 {  
     u16 i=0 ;
      i = i;	
-    if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET) 
+	
+   if (USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)
+    {
+        USART_ReceiveData(USART6);
+    }
+    else if (USART_GetITStatus(USART6, USART_IT_IDLE) != RESET)
     {  
-        i = USART6->SR;   //clear RXNE flag 
-        i = USART6->DR;  
+		
+		static uint16_t this_time_rx_len = 0;
+        USART_ReceiveData(USART6);
+		
+		
+       if(DMA_GetCurrentMemoryTarget(DMA2_Stream1) == 0)
+        {
+			 //重新设置DMA
+            DMA_Cmd(DMA2_Stream1, DISABLE);
+            this_time_rx_len = AHRS_RC_LEN - DMA_GetCurrDataCounter(DMA2_Stream1);
+			DMA_SetCurrDataCounter(DMA2_Stream1, AHRS_RC_LEN);
+            DMA2_Stream1->CR |= DMA_SxCR_CT;//当前目标存储器为存储器1
+		    DMA_ClearFlag(DMA2_Stream1, DMA_FLAG_TCIF1 | DMA_FLAG_HTIF1);
+            DMA_Cmd(DMA2_Stream1, ENABLE);
 			
-		Referee_date1.Onlinecnt = 0;
-        DMA_Cmd(DMA2_Stream2, DISABLE); 	
-          
-        Referee_read_date();	//read data
+			if(this_time_rx_len >= 6)
+            {
+                 //处理裁判系统数据
+			   Referee_read_hook(Rx_Buf_Referee[0],this_time_rx_len);	//read data
+            }
+		}
+		else
+		{
+			//重新设置DMA
+            DMA_Cmd(DMA2_Stream1, DISABLE);
+            this_time_rx_len = AHRS_RC_LEN - DMA_GetCurrDataCounter(DMA2_Stream1);
+			DMA_SetCurrDataCounter(DMA2_Stream1, AHRS_RC_LEN);
+            DMA2_Stream1->CR &= ~DMA_SxCR_CT;//当前目标存储器为存储器0
+		    DMA_ClearFlag(DMA2_Stream1, DMA_FLAG_TCIF1 | DMA_FLAG_HTIF1);
+            DMA_Cmd(DMA2_Stream1, ENABLE);
 			
-        DMA_ClearFlag(DMA2_Stream2,DMA_FLAG_TCIF1 | DMA_FLAG_FEIF1 | DMA_FLAG_DMEIF1 | DMA_FLAG_TEIF1 | DMA_FLAG_HTIF1); //clear DMA flag
-        DMA_SetCurrDataCounter(DMA2_Stream2, AHRS_RC_LEN);  			
-        DMA_Cmd(DMA2_Stream2, ENABLE); 
-        		
+			if(this_time_rx_len >= 6)
+            {
+                 //处理裁判系统数据
+			   Referee_read_hook(Rx_Buf_Referee[1],this_time_rx_len);	//read data
+            }		   
+		}		     		
     }  
-		   __nop(); 
+    __nop(); 
 }  
 
 
@@ -125,111 +159,92 @@ void bubble_sort(float *p,char num)
 }
 
 
-
-Referee_Date Referee_date1;
 char  g_Referee_flag = 0 ;
 Power power  ; 
 
-static void Referee_read_date(void)
+static void Referee_read_hook(uint8_t *rx_buf,uint8_t len)
 {
-	u32 i;
-	char frame_len;
-	
-  static float power_data[5];
-	static char count = 0;
-  float sum = 0;
-	
-	frame_len =  AHRS_RC_LEN - DMA_GetCurrDataCounter(DMA1_Stream5); //get the length of the frame
-	//printf(" frame_len=%d\r\n",frame_len);
-		for(i = 0; i < frame_len; i ++)
+	for(int i = 0; i < len; i ++)
+	{
+		if(rx_buf[i] == 0xA5)
 		{
-			if(Rx_Buf_Referee[i] == 0xA5)
-			{
-				
-				if(Verify_CRC8_Check_Sum(Rx_Buf_Referee,i + 5))
-				{
-
-					Referee_date1.frame_header.data_length = (Rx_Buf_Referee[i + 2] << 8) | Rx_Buf_Referee[i+1];
-					Referee_date1.frame_header.seq =  Rx_Buf_Referee[i+3];
-				
-					
-					Referee_date1.CmdID            =  Rx_Buf_Referee[i+5] | Rx_Buf_Referee[i+6] << 8;
-				 
-					if(Referee_date1.CmdID == ROBOT_STATE)
-					{
-						
-						memcpy(&Referee_date1.GameRobotState_t,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-					
-			//			printf("CmdID=%d  stageRemianTime=%d  gameProgress=%d  robotLevel=%d  remainHP=%d   maxHP=%d \r\n",Referee_date1.CmdID,Referee_date1.GameRobotState_t.stageRemianTime,Referee_date1.GameRobotState_t.gameProgress,\
-						                                                                                                   Referee_date1.GameRobotState_t.robotLevel,Referee_date1.GameRobotState_t.remainHP,Referee_date1.GameRobotState_t.maxHP);
-					}  
-					else if(Referee_date1.CmdID == HURTDATA) 
-					{							
-					   Referee_date1.RoboHurt_t.armorType =  Rx_Buf_Referee[i+7]&0x0f;
-						 Referee_date1.RoboHurt_t.hurtType  =  Rx_Buf_Referee[i+7]&0xf0;
-						
-				//		 printf("CmdID=%d  armorType= %d   hurtType=%d\r\n", Referee_date1.CmdID,Referee_date1.RoboHurt_t.armorType,Referee_date1.RoboHurt_t.hurtType);
-						
-					}
-				 else if(Referee_date1.CmdID == SHOOTDATA)
-					{
-						memcpy(&Referee_date1.ShootData,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-	
-					//	printf("CmdID=%d	bulletType=%d  bulletFreq=%d  bulletSpeed=%f\r\n",Referee_date1.CmdID,Referee_date1.ShootData.bulletType,Referee_date1.ShootData.bulletFreq,Referee_date1.ShootData.bulletSpeed);
-					}
-					
-					else if(Referee_date1.CmdID == POWER_HEAT)
-					{
-						memcpy(&Referee_date1.powerHeatData,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-			//			printf("CmdID=%d	chassisVolt=%f  chassisCurrent=%f  chassisPower=%f  chassisPowerBuffer=%f  shooterHeat0=%d   shooterHeat1=%d\r\n ",\
-										Referee_date1.CmdID,Referee_date1.powerHeatData.chassisVolt,Referee_date1.powerHeatData.chassisCurrent,Referee_date1.powerHeatData.chassisPower , Referee_date1.powerHeatData.chassisPowerBuffer,\
-              			Referee_date1.powerHeatData.shooterHeat0,Referee_date1.powerHeatData.shooterHeat1);
-					}
-					else if(Referee_date1.CmdID == RFIDDETECT)
-					{
-						memcpy(&Referee_date1.RfidDetect,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-					//	printf("CmdID=%d	card_Type=%d	cardidx=%d\r\n",Referee_date1.CmdID ,Referee_date1.RfidDetect.card_Type,Referee_date1.RfidDetect.cardidx);
-					}
-					else if(Referee_date1.CmdID == GAMERUSULT)
-					{
-					  // Referee_date1.GameResult.winner = Rx_Buf_Referee[i + 7];
-						 memcpy(&Referee_date1.GameResult,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-					//	printf("CmdID=%d  winner=%d\r\n ",Referee_date1.CmdID,Referee_date1.GameResult.winner);
-					}
-					else if(Referee_date1.CmdID == GETBUFF )
-					{
-						memcpy(&Referee_date1.GetBuff,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-					//	printf("CmdID=%d buffType=%d   buffAddition=%d",Referee_date1.CmdID,Referee_date1.GetBuff.buffType,Referee_date1.GetBuff.buffAddition);
-				  }
-					else if(Referee_date1.CmdID == POSITION)
-					{		
-						memcpy(&Referee_date1.GameRobotPos,&Rx_Buf_Referee[i+7],Referee_date1.frame_header.data_length);
-			//			printf("CmID=%d  X=%f  Y=%f  Z=%f\r\n",Referee_date1.CmdID,Referee_date1.GameRobotPos.x,Referee_date1.GameRobotPos.y,Referee_date1.GameRobotPos.yaw);
-					}
-			  }
-		
-			 }
-		}
-		
-		//对功率100ms采集一次
-		power.curr_power =    Referee_date1.powerHeatData.chassisPower;
-	    power_data[count] =   Referee_date1.powerHeatData.chassisPower;
-		 count++;
-		 if(count == 5 )
-		 {
-		    count =0;
-			  g_Referee_flag = 1 ;
-			  bubble_sort(power_data,5);
-			 // printf("%f %f %f %f %f\r\n",power_data[0],power_data[1],power_data[2],power_data[3],power_data[4]);
-			  for(i=1;i<=3;i++)
-			 {
-			   sum += power_data[i];
-			 }
-			  power.average = sum / 3;
-			  sum = 0;
-	 // 		printf("power.average=%f\r\n",power.average);
 			
-		 } 
+			if(Verify_CRC8_Check_Sum(rx_buf,i + 5))
+			{
+			    Referee_date1.frame_header.sof = rx_buf[i];
+				Referee_date1.frame_header.data_length = (rx_buf[i + 2] << 8) | rx_buf[i+1];
+				Referee_date1.frame_header.seq =  rx_buf[i+3];
+							
+				Referee_date1.CmdID  =  rx_buf[i+5] | rx_buf[i+6] << 8;
+				
+				 //对整包校验crc16
+				if(Verify_CRC16_Check_Sum(rx_buf,Referee_date1.frame_header.data_length + 9) == true)
+				{
+					 switch(Referee_date1.CmdID)
+					 {
+						 case Competition_Satus_e:
+							 memcpy(&Referee_date1.game_state,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							 break;
+						 
+						 case Competition_Result_e:
+							 memcpy(&Referee_date1.game_result,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							 break;
+						 
+						  case Robot_Survive_Data_e:
+							 memcpy(&Referee_date1.game_robot_survivors,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							 break;	
+						  
+						  case Site_Event_Data_e:
+							 memcpy(&Referee_date1.event_data,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							 break;		
+						  
+						  case Supply_Station_Data_e:
+							 memcpy(&Referee_date1.supply_projectile_action,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							 break;
+						  
+						  case Request_Bullet_Data_e:
+							 memcpy(&Referee_date1.supply_projectile_booking,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break;
+						  
+						  case Robot_Status_Data_e:
+							 memcpy(&Referee_date1.game_robot_state,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break;
+						  
+						  case Power_Heat_Data_e:
+							 memcpy(&Referee_date1.power_heat_data,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break;		
+
+						  case Robot_Position:
+							 memcpy(&Referee_date1.game_robot_pos,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break;
+
+						  case Robot_Gain_Data_e:
+							 memcpy(&Referee_date1.buff_musk,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break;	
+						  
+						  case Air_Robot_Power_Data_e:
+							 memcpy(&Referee_date1.aerial_robot_energy,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break; 
+						  
+						  case Hurt_data_e:
+							 memcpy(&Referee_date1.robot_hurt,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break; 							  
+						  
+						  case Shoot_Data_e:
+							 memcpy(&Referee_date1.shoot_data,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break; 
+						  
+						  case Robot_Interaction:
+							 memcpy(&Referee_date1.student_interactive_header_data,&rx_buf[i+7],Referee_date1.frame_header.data_length);
+							break; 
+						  
+						  default:
+							break;								  		  
+					 }
+				}
+			}
+	   }
+    }
 }
 
 const unsigned char CRC8_INIT = 0xff;
@@ -290,4 +305,95 @@ void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)
 	ucCRC = Get_CRC8_Check_Sum ( (unsigned char *)pchMessage, dwLength-1, CRC8_INIT);
 	pchMessage[dwLength-1] = ucCRC;
 }
+
+
 uint16_t CRC_INIT = 0xffff;
+const uint16_t wCRC_Table[256] =
+{
+0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
+0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
+0x1081, 0x0108, 0x3393, 0x221a, 0x56a5, 0x472c, 0x75b7, 0x643e,
+0x9cc9, 0x8d40, 0xbfdb, 0xae52, 0xdaed, 0xcb64, 0xf9ff, 0xe876,
+0x2102, 0x308b, 0x0210, 0x1399, 0x6726, 0x76af, 0x4434, 0x55bd,
+0xad4a, 0xbcc3, 0x8e58, 0x9fd1, 0xeb6e, 0xfae7, 0xc87c, 0xd9f5,
+0x3183, 0x200a, 0x1291, 0x0318, 0x77a7, 0x662e, 0x54b5, 0x453c,
+0xbdcb, 0xac42, 0x9ed9, 0x8f50, 0xfbef, 0xea66, 0xd8fd, 0xc974,
+0x4204, 0x538d, 0x6116, 0x709f, 0x0420, 0x15a9, 0x2732, 0x36bb,
+0xce4c, 0xdfc5, 0xed5e, 0xfcd7, 0x8868, 0x99e1, 0xab7a, 0xbaf3,
+0x5285, 0x430c, 0x7197, 0x601e, 0x14a1, 0x0528, 0x37b3, 0x263a,
+0xdecd, 0xcf44, 0xfddf, 0xec56, 0x98e9, 0x8960, 0xbbfb, 0xaa72,
+0x6306, 0x728f, 0x4014, 0x519d, 0x2522, 0x34ab, 0x0630, 0x17b9,
+0xef4e, 0xfec7, 0xcc5c, 0xddd5, 0xa96a, 0xb8e3, 0x8a78, 0x9bf1,
+0x7387, 0x620e, 0x5095, 0x411c, 0x35a3, 0x242a, 0x16b1, 0x0738,
+0xffcf, 0xee46, 0xdcdd, 0xcd54, 0xb9eb, 0xa862, 0x9af9, 0x8b70,
+0x8408, 0x9581, 0xa71a, 0xb693, 0xc22c, 0xd3a5, 0xe13e, 0xf0b7,
+0x0840, 0x19c9, 0x2b52, 0x3adb, 0x4e64, 0x5fed, 0x6d76, 0x7cff,
+0x9489, 0x8500, 0xb79b, 0xa612, 0xd2ad, 0xc324, 0xf1bf, 0xe036,
+0x18c1, 0x0948, 0x3bd3, 0x2a5a, 0x5ee5, 0x4f6c, 0x7df7, 0x6c7e,
+0xa50a, 0xb483, 0x8618, 0x9791, 0xe32e, 0xf2a7, 0xc03c, 0xd1b5,
+0x2942, 0x38cb, 0x0a50, 0x1bd9, 0x6f66, 0x7eef, 0x4c74, 0x5dfd,
+0xb58b, 0xa402, 0x9699, 0x8710, 0xf3af, 0xe226, 0xd0bd, 0xc134,
+0x39c3, 0x284a, 0x1ad1, 0x0b58, 0x7fe7, 0x6e6e, 0x5cf5, 0x4d7c,
+0xc60c, 0xd785, 0xe51e, 0xf497, 0x8028, 0x91a1, 0xa33a, 0xb2b3,
+0x4a44, 0x5bcd, 0x6956, 0x78df, 0x0c60, 0x1de9, 0x2f72, 0x3efb,
+0xd68d, 0xc704, 0xf59f, 0xe416, 0x90a9, 0x8120, 0xb3bb, 0xa232,
+0x5ac5, 0x4b4c, 0x79d7, 0x685e, 0x1ce1, 0x0d68, 0x3ff3, 0x2e7a,
+0xe70e, 0xf687, 0xc41c, 0xd595, 0xa12a, 0xb0a3, 0x8238, 0x93b1,
+0x6b46, 0x7acf, 0x4854, 0x59dd, 0x2d62, 0x3ceb, 0x0e70, 0x1ff9,
+0xf78f, 0xe606, 0xd49d, 0xc514, 0xb1ab, 0xa022, 0x92b9, 0x8330,
+0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78
+};
+/*
+** Descriptions: CRC16 checksum function
+** Input: Data to check,Stream length, initialized checksum
+** Output: CRC checksum
+*/
+uint16_t Get_CRC16_Check_Sum(uint8_t *pchMessage,uint32_t dwLength,uint16_t wCRC)
+{
+	uint8_t chData;
+	if (pchMessage == NULL)
+	{
+		return 0xFFFF;
+	}
+	while(dwLength--)
+	{
+		chData = *pchMessage++;
+		(wCRC) = ((uint16_t)(wCRC) >> 8) ^ wCRC_Table[((uint16_t)(wCRC) ^ (uint16_t)(chData)) &
+		0x00ff];
+	}
+	return wCRC;
+}
+
+/*
+** Descriptions: CRC16 Verify function
+** Input: Data to Verify,Stream length = Data + checksum
+** Output: True or False (CRC Verify Result)
+*/
+uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength)
+{
+	uint16_t wExpected = 0;
+	if ((pchMessage == NULL) || (dwLength <= 2))
+	{
+		return false;
+	}
+	wExpected = Get_CRC16_Check_Sum ( pchMessage, dwLength - 2, CRC_INIT);
+	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) ==
+	pchMessage[dwLength - 1]);
+}
+/*
+** Descriptions: append CRC16 to the end of data
+** Input: Data to CRC and append,Stream length = Data + checksum
+** Output: True or False (CRC Verify Result)
+*/
+void Append_CRC16_Check_Sum(uint8_t * pchMessage,uint32_t dwLength)
+{
+	uint16_t wCRC = 0;
+	if ((pchMessage == NULL) || (dwLength <= 2))
+	{
+		return;
+	}
+	wCRC = Get_CRC16_Check_Sum ( (uint8_t *)pchMessage, dwLength-2, CRC_INIT );
+	pchMessage[dwLength-2] = (uint8_t)(wCRC & 0x00ff);
+	pchMessage[dwLength-1] = (uint8_t)((wCRC >> 8)& 0x00ff);
+}
+

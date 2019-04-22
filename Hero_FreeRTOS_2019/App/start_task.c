@@ -12,6 +12,7 @@
 #include "BasicPeripherals.h"
 #include "calibrate_task.h"
 #include "chassis_task.h"
+#include "MainFocus_Usart.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 512
@@ -36,6 +37,7 @@ static TaskHandle_t CalibrateTask_Handler;
 #define Chassis_TASK_PRIO 4
 #define Chassis_STK_SIZE 512
 TaskHandle_t ChassisTask_Handler;
+void Sned_MainFoucs_Task(void *pvParameters);
 
 void start_task(void *pvParameters)
 {	
@@ -73,12 +75,19 @@ void start_task(void *pvParameters)
                 (UBaseType_t)CALIBRATE_TASK_PRIO,
                 (TaskHandle_t *)&CalibrateTask_Handler);
 				
-    xTaskCreate((TaskFunction_t)chassis_task,
+//    xTaskCreate((TaskFunction_t)chassis_task,
+//                (const char *)"ChassisTask",
+//                (uint16_t)Chassis_STK_SIZE,
+//                (void *)NULL,
+//                (UBaseType_t)Chassis_TASK_PRIO,
+//                (TaskHandle_t *)&ChassisTask_Handler);
+
+    xTaskCreate((TaskFunction_t)Sned_MainFoucs_Task,
                 (const char *)"ChassisTask",
-                (uint16_t)Chassis_STK_SIZE,
+                (uint16_t)512,
                 (void *)NULL,
-                (UBaseType_t)Chassis_TASK_PRIO,
-                (TaskHandle_t *)&ChassisTask_Handler);				
+                (UBaseType_t)4,
+                (TaskHandle_t *)&ChassisTask_Handler);					
 
     vTaskDelete(Start_Task_Handle); //删除开始任务
 				
@@ -94,5 +103,18 @@ void StartTask()
 						 (void *)         NULL           ,    
 						 (UBaseType_t)    START_TASK_PRIO,	
 						 (TaskHandle_t *) &Start_Task_Handle);			 
+}
+
+int8_t pitch;
+void Sned_MainFoucs_Task(void *pvParameters)
+{
+
+    for(;;)
+	{	 
+      pitch	 = getPitchAngle();	
+	   Send_MessToMainFocus(0,getEenmyColor());
+	   vTaskDelay(100);
+	   Send_MessToMainFocus(2,getPitchAngle() * 4);
+	}
 }
 

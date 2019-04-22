@@ -1,7 +1,7 @@
 ..\obj\chassis_task.o: ..\App\chassis_task.c
 ..\obj\chassis_task.o: ..\App\chassis_task.h
 ..\obj\chassis_task.o: ..\USER\main.h
-..\obj\chassis_task.o: ..\BSP\MotorCAN.h
+..\obj\chassis_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\chassis_task.o: ..\USER\stm32f4xx.h
 ..\obj\chassis_task.o: ..\CORE\core_cm4.h
 ..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -39,11 +39,13 @@
 ..\obj\chassis_task.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\chassis_task.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\chassis_task.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\chassis_task.o: ..\BSP\MotorCAN.h
 ..\obj\chassis_task.o: ..\USER\pid_modify.h
 ..\obj\chassis_task.o: ..\App\Gimbal_Task.h
 ..\obj\chassis_task.o: ..\App\pid.h
 ..\obj\chassis_task.o: ..\BSP\RemotDbus.h
 ..\obj\chassis_task.o: ..\App\user_lib.h
+..\obj\chassis_task.o: ..\Task\Auto_attackTask.h
 ..\obj\chassis_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
 ..\obj\chassis_task.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

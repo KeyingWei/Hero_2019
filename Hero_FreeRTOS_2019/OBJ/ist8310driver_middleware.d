@@ -1,6 +1,7 @@
 ..\obj\ist8310driver_middleware.o: ..\AHRS\ist8310driver_middleware.c
 ..\obj\ist8310driver_middleware.o: ..\AHRS\ist8310driver_middleWare.h
 ..\obj\ist8310driver_middleware.o: ..\USER\main.h
+..\obj\ist8310driver_middleware.o: ..\SYSTEM\sys\sys.h
 ..\obj\ist8310driver_middleware.o: ..\USER\stm32f4xx.h
 ..\obj\ist8310driver_middleware.o: ..\CORE\core_cm4.h
 ..\obj\ist8310driver_middleware.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -39,6 +40,5 @@
 ..\obj\ist8310driver_middleware.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\ist8310driver_middleware.o: ..\FWLIB\inc\stm32f4xx_sai.h
 ..\obj\ist8310driver_middleware.o: ..\SYSTEM\delay\delay.h
-..\obj\ist8310driver_middleware.o: ..\SYSTEM\sys\sys.h
 ..\obj\ist8310driver_middleware.o: ..\AHRS\mpu6500driver_middleWare.h
 ..\obj\ist8310driver_middleware.o: ..\AHRS\mpu6500reg.h

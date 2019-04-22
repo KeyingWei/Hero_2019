@@ -258,7 +258,7 @@ static void chassis_infantry_follow_gimbal_yaw_control(fp32 *vx_set, fp32 *vy_se
     //计算遥控器的原始输入信号
 
     //判断是否要摇摆
-    if (chassis_move_rc_to_vector->chassis_RC->key.v & SWING_KEY)
+    if (chassis_move_rc_to_vector->chassis_RC->key.v & SWING_START_KEY)
     {
         if (swing_flag == 0)
         {
@@ -266,7 +266,7 @@ static void chassis_infantry_follow_gimbal_yaw_control(fp32 *vx_set, fp32 *vy_se
             swing_time = 0.0f;
         }
     }
-    else
+    else if(chassis_move_rc_to_vector->chassis_RC->key.v & SWING_STOP_KEY)
     {
         swing_flag = 0;
     }

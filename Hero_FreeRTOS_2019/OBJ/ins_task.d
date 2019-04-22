@@ -1,6 +1,7 @@
 ..\obj\ins_task.o: ..\App\INS_task.c
 ..\obj\ins_task.o: ..\App\INS_Task.h
 ..\obj\ins_task.o: ..\USER\main.h
+..\obj\ins_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\ins_task.o: ..\USER\stm32f4xx.h
 ..\obj\ins_task.o: ..\CORE\core_cm4.h
 ..\obj\ins_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

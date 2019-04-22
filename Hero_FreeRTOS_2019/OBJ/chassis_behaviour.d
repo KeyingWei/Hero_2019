@@ -1,8 +1,7 @@
 ..\obj\chassis_behaviour.o: ..\App\chassis_behaviour.c
 ..\obj\chassis_behaviour.o: ..\App\chassis_behaviour.h
 ..\obj\chassis_behaviour.o: ..\USER\main.h
-..\obj\chassis_behaviour.o: ..\App\chassis_task.h
-..\obj\chassis_behaviour.o: ..\BSP\MotorCAN.h
+..\obj\chassis_behaviour.o: ..\SYSTEM\sys\sys.h
 ..\obj\chassis_behaviour.o: ..\USER\stm32f4xx.h
 ..\obj\chassis_behaviour.o: ..\CORE\core_cm4.h
 ..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -40,11 +39,14 @@
 ..\obj\chassis_behaviour.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\chassis_behaviour.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\chassis_behaviour.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\chassis_behaviour.o: ..\App\chassis_task.h
+..\obj\chassis_behaviour.o: ..\BSP\MotorCAN.h
 ..\obj\chassis_behaviour.o: ..\USER\pid_modify.h
 ..\obj\chassis_behaviour.o: ..\App\Gimbal_Task.h
 ..\obj\chassis_behaviour.o: ..\App\pid.h
 ..\obj\chassis_behaviour.o: ..\BSP\RemotDbus.h
 ..\obj\chassis_behaviour.o: ..\App\user_lib.h
+..\obj\chassis_behaviour.o: ..\Task\Auto_attackTask.h
 ..\obj\chassis_behaviour.o: ..\DSP\Include\arm_math.h
 ..\obj\chassis_behaviour.o: ..\CORE\core_cm4.h
 ..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

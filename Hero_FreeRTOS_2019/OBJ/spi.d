@@ -1,6 +1,7 @@
 ..\obj\spi.o: ..\BSP\spi.c
 ..\obj\spi.o: ..\BSP\spi.h
 ..\obj\spi.o: ..\USER\main.h
+..\obj\spi.o: ..\SYSTEM\sys\sys.h
 ..\obj\spi.o: ..\USER\stm32f4xx.h
 ..\obj\spi.o: ..\CORE\core_cm4.h
 ..\obj\spi.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

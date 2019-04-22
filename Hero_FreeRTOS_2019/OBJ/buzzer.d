@@ -1,6 +1,7 @@
 ..\obj\buzzer.o: ..\BSP\buzzer.c
 ..\obj\buzzer.o: ..\BSP\buzzer.h
 ..\obj\buzzer.o: ..\USER\main.h
+..\obj\buzzer.o: ..\SYSTEM\sys\sys.h
 ..\obj\buzzer.o: ..\USER\stm32f4xx.h
 ..\obj\buzzer.o: ..\CORE\core_cm4.h
 ..\obj\buzzer.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

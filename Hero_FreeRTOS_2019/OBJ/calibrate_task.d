@@ -1,9 +1,6 @@
 ..\obj\calibrate_task.o: ..\App\calibrate_task.c
 ..\obj\calibrate_task.o: ..\App\calibrate_Task.h
 ..\obj\calibrate_task.o: ..\USER\main.h
-..\obj\calibrate_task.o: ..\BSP\adc.h
-..\obj\calibrate_task.o: ..\BSP\buzzer.h
-..\obj\calibrate_task.o: ..\BSP\flash.h
 ..\obj\calibrate_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\calibrate_task.o: ..\USER\stm32f4xx.h
 ..\obj\calibrate_task.o: ..\CORE\core_cm4.h
@@ -42,6 +39,9 @@
 ..\obj\calibrate_task.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\calibrate_task.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\calibrate_task.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\calibrate_task.o: ..\BSP\adc.h
+..\obj\calibrate_task.o: ..\BSP\buzzer.h
+..\obj\calibrate_task.o: ..\BSP\flash.h
 ..\obj\calibrate_task.o: ..\BSP\RemotDbus.h
 ..\obj\calibrate_task.o: ..\App\INS_Task.h
 ..\obj\calibrate_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
@@ -50,6 +50,7 @@
 ..\obj\calibrate_task.o: ..\BSP\MotorCAN.h
 ..\obj\calibrate_task.o: ..\USER\pid_modify.h
 ..\obj\calibrate_task.o: ..\App\user_lib.h
+..\obj\calibrate_task.o: ..\Task\Auto_attackTask.h
 ..\obj\calibrate_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
 ..\obj\calibrate_task.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\calibrate_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

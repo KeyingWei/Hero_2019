@@ -56,11 +56,13 @@
 ..\obj\start_task.o: ..\FreeRTOS\include\timers.h
 ..\obj\start_task.o: ..\App\gimbal_task.h
 ..\obj\start_task.o: ..\USER\main.h
+..\obj\start_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\start_task.o: ..\App\pid.h
 ..\obj\start_task.o: ..\App\user_lib.h
+..\obj\start_task.o: ..\Task\Auto_attackTask.h
 ..\obj\start_task.o: ..\App\INS_task.h
 ..\obj\start_task.o: ..\App\detect_task.h
 ..\obj\start_task.o: ..\BSP\BasicPeripherals.h
-..\obj\start_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\start_task.o: ..\App\calibrate_task.h
 ..\obj\start_task.o: ..\App\chassis_task.h
+..\obj\start_task.o: ..\BSP\MainFocus_Usart.h

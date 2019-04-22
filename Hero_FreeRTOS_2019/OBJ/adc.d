@@ -1,7 +1,6 @@
 ..\obj\adc.o: ..\BSP\adc.c
 ..\obj\adc.o: ..\BSP\adc.h
 ..\obj\adc.o: ..\USER\main.h
-..\obj\adc.o: ..\SYSTEM\delay\delay.h
 ..\obj\adc.o: ..\SYSTEM\sys\sys.h
 ..\obj\adc.o: ..\USER\stm32f4xx.h
 ..\obj\adc.o: ..\CORE\core_cm4.h
@@ -40,3 +39,4 @@
 ..\obj\adc.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\adc.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\adc.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\adc.o: ..\SYSTEM\delay\delay.h

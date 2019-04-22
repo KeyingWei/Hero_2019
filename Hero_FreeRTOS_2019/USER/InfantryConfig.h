@@ -7,7 +7,7 @@
 
 #define ENCODER_MIDDLE       (23L * 180L)
 #define ENCODER_PER_DEGREE   (8192L/360L)
-#define USART_FOR_PRINT 2L    //设置串口打印使用的串口，2 --uart2  3 --uart3  other--uart6
+
 #define IMU_MODE       1    //设置使用内置或外置IMU   1--内置IMU  2--外置IMU
 
 #define FORWARESPEED    5000L //设置键盘控制前进后退速度   范围 0 - 8000

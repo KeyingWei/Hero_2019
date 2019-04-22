@@ -40,3 +40,4 @@
 ..\obj\motorcan.o: ..\USER\pid_modify.h
 ..\obj\motorcan.o: ..\App\detect_task.h
 ..\obj\motorcan.o: ..\USER\main.h
+..\obj\motorcan.o: ..\SYSTEM\sys\sys.h

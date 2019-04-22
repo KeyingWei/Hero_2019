@@ -1,8 +1,7 @@
 ..\obj\detect_task.o: ..\App\detect_task.c
 ..\obj\detect_task.o: ..\App\Detect_Task.h
 ..\obj\detect_task.o: ..\USER\main.h
-..\obj\detect_task.o: ..\BSP\led.h
-..\obj\detect_task.o: ..\BSP\MotorCAN.h
+..\obj\detect_task.o: ..\SYSTEM\sys\sys.h
 ..\obj\detect_task.o: ..\USER\stm32f4xx.h
 ..\obj\detect_task.o: ..\CORE\core_cm4.h
 ..\obj\detect_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -40,6 +39,8 @@
 ..\obj\detect_task.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 ..\obj\detect_task.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\detect_task.o: ..\FWLIB\inc\stm32f4xx_sai.h
+..\obj\detect_task.o: ..\BSP\led.h
+..\obj\detect_task.o: ..\BSP\MotorCAN.h
 ..\obj\detect_task.o: ..\USER\pid_modify.h
 ..\obj\detect_task.o: ..\BSP\RemotDbus.h
 ..\obj\detect_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
@@ -53,4 +54,3 @@
 ..\obj\detect_task.o: ..\FreeRTOS\include\task.h
 ..\obj\detect_task.o: ..\FreeRTOS\include\list.h
 ..\obj\detect_task.o: ..\BSP\BasicPeripherals.h
-..\obj\detect_task.o: ..\SYSTEM\sys\sys.h

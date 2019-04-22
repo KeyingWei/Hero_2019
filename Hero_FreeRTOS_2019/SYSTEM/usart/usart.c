@@ -1,5 +1,6 @@
 #include "sys.h"
 #include "usart.h"	
+#include "main.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -60,7 +61,7 @@ int _ttywrch(int ch)
 int fputc(int ch, FILE *f)
 { 	
 	
-#if ( USART_FOR_PRINT == 2)	
+#if ( USART_FOR_PRINT == 2)   	
 	USART2->DR = (u8) ch;
     while((USART2->SR&0X40)==0);//循环发送,直到发送完毕   
 #elif ( USART_FOR_PRINT == 3)

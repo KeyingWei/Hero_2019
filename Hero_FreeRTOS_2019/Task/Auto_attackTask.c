@@ -3,7 +3,7 @@
 #include "freertostask.h"
 
 AUTODATA AutoData; 
-volatile  u8 mainfocus_rx_buffer[10];
+ uint8_t mainfocus_rx_buffer[2][100]={0};
 AUTODATA_From_MainFocus Auto_Origion ={0}; 
 
 
@@ -24,19 +24,25 @@ void send_data(char mode, u8 cmd2)
 	}
 }
 
-void receiveMainFocusData()
+uint16_t rx_fail_cnt = 0;
+void receiveMainFocusData(uint8_t *buff) 
 {
     int i = 0;
 		
-	  for(i =0;i< 10;i++)
+	  for(i =0;i< 100;i++)
 	  {
-		  if(mainfocus_rx_buffer[i]== 0xFF && mainfocus_rx_buffer[i+7]== 0xFE)
+		  if(buff[i]== 0xFF && buff[i+7]== 0xFE)
 			{
-			  memcpy(&Auto_Origion,(u8 *)&mainfocus_rx_buffer[i+1],6);
+			  memcpy(&Auto_Origion,(u8 *)&buff[i+1],6);
+			  break;
+			}
+			else
+			{
+				rx_fail_cnt++;		   
 			}
 	 }	
-		AutoData.YawAxiaAngle  = -(float)Auto_Origion.YawAxiaAngle /100 ;
-		AutoData.PitchAxiaAngle = -(float)Auto_Origion.PitchAxiaAngle /100;
+		AutoData.YawAxiaAngle   = (float)-Auto_Origion.YawAxiaAngle /100.0f * 0.0174f ; //rad/s
+		AutoData.PitchAxiaAngle = (float)-Auto_Origion.PitchAxiaAngle /100.0f * 0.0174f;
 		AutoData.Mode = Auto_Origion.Mode;	
 		
 		
@@ -51,6 +57,11 @@ void receiveMainFocusData()
 	
 
 }	
+
+AUTODATA *GetAutoDataPoint()
+{
+   return &AutoData; 
+}
 
 
 

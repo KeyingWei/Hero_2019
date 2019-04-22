@@ -1,6 +1,7 @@
 ..\obj\timer.o: ..\BSP\timer.c
 ..\obj\timer.o: ..\BSP\timer.h
 ..\obj\timer.o: ..\USER\main.h
+..\obj\timer.o: ..\SYSTEM\sys\sys.h
 ..\obj\timer.o: ..\USER\stm32f4xx.h
 ..\obj\timer.o: ..\CORE\core_cm4.h
 ..\obj\timer.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

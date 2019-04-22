@@ -205,7 +205,7 @@ int16_t *shoot_control_loop(void)
     else
     {
 		//小弹丸拨弹轮控制
-		if(trigger_motor[1].press_r == 1 || switch_is_down(shoot_rc->rc.s[Shoot_RC_Channel]))
+		if(trigger_motor[1].press_l == 1 || switch_is_down(shoot_rc->rc.s[Shoot_RC_Channel]))
 		{
 			if(trigger_motor[1].move_flag == 0)
 			{
@@ -288,7 +288,7 @@ int16_t *shoot_control_loop(void)
         fric_pwm1 = (uint16_t)(trigger_motor[0].fric1_ramp.out);
         fric_pwm2 = (uint16_t)(trigger_motor[0].fric2_ramp.out);
 
-        shoot_fric1_on(fric_pwm1 - 10);
+        shoot_fric1_on(fric_pwm1);
         shoot_fric2_on(fric_pwm2);
 
         //计算拨弹轮电机PID
@@ -353,7 +353,7 @@ static void Shoot_Set_Mode(void)
     if (shoot_mode == SHOOT_READY)
     {
         //下拨一次或者鼠标按下一次，进入射击状态
-        if ((switch_is_down(shoot_rc->rc.s[Shoot_RC_Channel]) && !switch_is_down(last_s)))
+        if ((switch_is_down(shoot_rc->rc.s[Shoot_RC_Channel]) && !switch_is_down(last_s)) ||(trigger_motor[0].press_r && trigger_motor[0].last_press_r == 0))
         {
             shoot_mode = SHOOT_BULLET;
 			trigger_motor[2].last_butter_count = trigger_motor[2].BulletShootCnt;
@@ -381,7 +381,7 @@ static void Shoot_Set_Mode(void)
 */		
 		
         //鼠标长按一直进入射击状态 保持连发
-        if (((trigger_motor[0].press_l_time == PRESS_LONG_TIME) && (trigger_motor[0].press_r_time == PRESS_LONG_TIME)) || (trigger_motor[0].rc_s_time == RC_S_LONG_TIME))
+        if (((trigger_motor[0].press_r_time == PRESS_LONG_TIME)) || (trigger_motor[0].rc_s_time == RC_S_LONG_TIME))
         {
             if (shoot_mode != SHOOT_DONE && trigger_motor[0].key == SWITCH_TRIGGER_ON)
             {

@@ -1,6 +1,7 @@
 ..\obj\frictionmoterpwm.o: ..\BSP\FrictionMoterPWM.c
 ..\obj\frictionmoterpwm.o: ..\BSP\FrictionMoterPWM.h
 ..\obj\frictionmoterpwm.o: ..\USER\main.h
+..\obj\frictionmoterpwm.o: ..\SYSTEM\sys\sys.h
 ..\obj\frictionmoterpwm.o: ..\USER\stm32f4xx.h
 ..\obj\frictionmoterpwm.o: ..\CORE\core_cm4.h
 ..\obj\frictionmoterpwm.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
