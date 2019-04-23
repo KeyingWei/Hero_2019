@@ -66,3 +66,10 @@
 ..\obj\start_task.o: ..\App\calibrate_task.h
 ..\obj\start_task.o: ..\App\chassis_task.h
 ..\obj\start_task.o: ..\BSP\MainFocus_Usart.h
+..\obj\start_task.o: ..\App\Referee_DispatchTask.h
+..\obj\start_task.o: ..\BSP\Referee.h
+..\obj\start_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\start_task.o: ..\SYSTEM\usart\usart.h
+..\obj\start_task.o: ..\USER\InfantryConfig.h
+..\obj\start_task.o: ..\FreeRTOSTask\freertostask.h
+..\obj\start_task.o: ..\IMU\imu.h

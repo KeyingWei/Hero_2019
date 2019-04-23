@@ -1,5 +1,5 @@
 Dependencies for Project 'Hero2019', Target 'Infatry_V2': (DO NOT MODIFY !)
-F (.\main.c)(0x5CB56F94)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x5CBE9667)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
 I (..\USER\stm32f4xx.h)(0x5C21D160)
 I (..\CORE\core_cm4.h)(0x5C21D160)
@@ -64,13 +64,14 @@ I (..\BSP\FrictionMoterPWM.h)(0x5CBBF884)
 I (..\USER\main.h)(0x5CB96B1F)
 I (..\BSP\RemotDbus.h)(0x5CB469F7)
 I (..\BSP\MainFocus_Usart.h)(0x5CBADB4F)
-I (..\BSP\Referee.h)(0x5CB9B82A)
+I (..\BSP\Referee.h)(0x5CBE9049)
 I (..\BSP\power_ctrl.h)(0x5CAEDFE7)
 I (..\App\start_task.h)(0x5CAEE8ED)
 I (..\BSP\buzzer.h)(0x5C2F41A5)
 I (..\BSP\timer.h)(0x5C2F41A5)
 I (..\BSP\adc.h)(0x5C2F41A5)
 I (..\App\calibrate_task.h)(0x5C32EF4C)
+I (..\BSP\usart6.h)(0x5CBE96BF)
 F (.\stm32f4xx_it.c)(0x5CBC4711)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
 I (stm32f4xx_it.h)(0x5C21D160)
 I (stm32f4xx.h)(0x5C21D160)
@@ -421,48 +422,6 @@ I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
 I (..\Task\Auto_attackTask.h)(0x5CBC47CB)
-F (..\BSP\Referee.c)(0x5CB9CED4)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\referee.o --omf_browse ..\obj\referee.crf --depend ..\obj\referee.d)
-I (..\BSP\Referee.h)(0x5CB9B82A)
-I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
-I (..\SYSTEM\sys\sys.h)(0x5C21D160)
-I (..\USER\stm32f4xx.h)(0x5C21D160)
-I (..\CORE\core_cm4.h)(0x5C21D160)
-I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (..\CORE\core_cmInstr.h)(0x5C21D160)
-I (..\CORE\core_cmFunc.h)(0x5C21D160)
-I (..\CORE\core_cm4_simd.h)(0x5C21D160)
-I (..\USER\system_stm32f4xx.h)(0x5C21D160)
-I (..\USER\stm32f4xx_conf.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_adc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_crc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_dbgmcu.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_dma.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_exti.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_flash.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_gpio.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_i2c.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_iwdg.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_pwr.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_rcc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_rtc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_sdio.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_spi.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_syscfg.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_tim.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_usart.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_wwdg.h)(0x5C21D160)
-I (..\FWLIB\inc\misc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_cryp.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_hash.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_rng.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_can.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
-I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
-I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
-I (D:\Software\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x57F606B8)
 F (..\BSP\adc.c)(0x5C309069)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\adc.o --omf_browse ..\obj\adc.crf --depend ..\obj\adc.d)
 I (..\BSP\adc.h)(0x5C2F41A5)
 I (..\USER\main.h)(0x5CB96B1F)
@@ -743,6 +702,49 @@ I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
+F (..\BSP\usart6.c)(0x5CBE95E8)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\usart6.o --omf_browse ..\obj\usart6.crf --depend ..\obj\usart6.d)
+I (..\BSP\usart6.h)(0x5CBE96BF)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
+I (..\SYSTEM\sys\sys.h)(0x5C21D160)
+I (..\USER\stm32f4xx.h)(0x5C21D160)
+I (..\CORE\core_cm4.h)(0x5C21D160)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (..\CORE\core_cmInstr.h)(0x5C21D160)
+I (..\CORE\core_cmFunc.h)(0x5C21D160)
+I (..\CORE\core_cm4_simd.h)(0x5C21D160)
+I (..\USER\system_stm32f4xx.h)(0x5C21D160)
+I (..\USER\stm32f4xx_conf.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_adc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_crc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dbgmcu.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dma.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_exti.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_flash.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_gpio.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_i2c.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_iwdg.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_pwr.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rcc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rtc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_sdio.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_spi.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_syscfg.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_tim.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_usart.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_wwdg.h)(0x5C21D160)
+I (..\FWLIB\inc\misc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_cryp.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_hash.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rng.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_can.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (..\App\circular_buffer.h)(0x5C766B43)
 F (..\SYSTEM\delay\delay.c)(0x5C21D160)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
 I (..\SYSTEM\delay\delay.h)(0x5C21D160)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
@@ -1615,7 +1617,7 @@ I (..\FreeRTOS\include\mpu_wrappers.h)(0x5C21D160)
 I (..\FreeRTOS\include\task.h)(0x5C21D160)
 I (..\FreeRTOS\include\list.h)(0x5C21D160)
 I (..\BSP\BasicPeripherals.h)(0x5CB82D05)
-F (..\App\gimbal_behaviour.c)(0x5CBC2C60)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\gimbal_behaviour.o --omf_browse ..\obj\gimbal_behaviour.crf --depend ..\obj\gimbal_behaviour.d)
+F (..\App\gimbal_behaviour.c)(0x5CBECB93)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\gimbal_behaviour.o --omf_browse ..\obj\gimbal_behaviour.crf --depend ..\obj\gimbal_behaviour.d)
 I (..\App\gimbal_behaviour.h)(0x5CBBCDE0)
 I (..\USER\main.h)(0x5CB96B1F)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
@@ -1667,7 +1669,7 @@ I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\BSP\buzzer.h)(0x5C2F41A5)
 I (..\App\Detect_Task.h)(0x5C2F4012)
-F (..\App\gimbal_task.c)(0x5CBC77E8)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\gimbal_task.o --omf_browse ..\obj\gimbal_task.crf --depend ..\obj\gimbal_task.d)
+F (..\App\gimbal_task.c)(0x5CBF1D47)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\gimbal_task.o --omf_browse ..\obj\gimbal_task.crf --depend ..\obj\gimbal_task.d)
 I (..\App\gimbal_task.h)(0x5CBC50D4)
 I (..\USER\main.h)(0x5CB96B1F)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
@@ -1729,7 +1731,9 @@ I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\App\INS_task.h)(0x5CB702C0)
 I (..\App\detect_task.h)(0x5C2F4012)
 I (..\App\gimbal_behaviour.h)(0x5CBBCDE0)
-I (..\App\shoot.h)(0x5CBBF898)
+I (..\App\shoot.h)(0x5CBEE77D)
+I (..\BSP\Referee.h)(0x5CBE9049)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
 F (..\App\INS_task.c)(0x5CB4838D)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\ins_task.o --omf_browse ..\obj\ins_task.crf --depend ..\obj\ins_task.d)
 I (..\App\INS_Task.h)(0x5CB702C0)
 I (..\USER\main.h)(0x5CB96B1F)
@@ -1833,7 +1837,7 @@ I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
-F (..\App\start_task.c)(0x5CBC1509)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\start_task.o --omf_browse ..\obj\start_task.crf --depend ..\obj\start_task.d)
+F (..\App\start_task.c)(0x5CBECDC9)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\start_task.o --omf_browse ..\obj\start_task.crf --depend ..\obj\start_task.d)
 I (..\App\start_task.h)(0x5CAEE8ED)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5C21D160)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
@@ -1898,8 +1902,15 @@ I (..\App\INS_task.h)(0x5CB702C0)
 I (..\App\detect_task.h)(0x5C2F4012)
 I (..\BSP\BasicPeripherals.h)(0x5CB82D05)
 I (..\App\calibrate_task.h)(0x5C32EF4C)
-I (..\App\chassis_task.h)(0x5CBA7BC6)
+I (..\App\chassis_task.h)(0x5CBEC9F1)
 I (..\BSP\MainFocus_Usart.h)(0x5CBADB4F)
+I (..\App\Referee_DispatchTask.h)(0x5CBEEFE7)
+I (..\BSP\Referee.h)(0x5CBE9049)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
+I (..\SYSTEM\usart\usart.h)(0x5C21D160)
+I (..\USER\InfantryConfig.h)(0x5CB9695E)
+I (..\FreeRTOSTask\freertostask.h)(0x5CA9A6B4)
+I (..\IMU\imu.h)(0x5C21D160)
 F (..\App\user_lib.c)(0x5C2F4114)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\user_lib.o --omf_browse ..\obj\user_lib.crf --depend ..\obj\user_lib.d)
 I (..\App\user_lib.h)(0x5C3337F7)
 I (..\USER\main.h)(0x5CB96B1F)
@@ -2040,7 +2051,7 @@ I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
 I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
-I (..\App\chassis_task.h)(0x5CBA7BC6)
+I (..\App\chassis_task.h)(0x5CBEC9F1)
 I (..\BSP\MotorCAN.h)(0x5CB89A6F)
 I (..\USER\pid_modify.h)(0x5C21D160)
 I (..\App\Gimbal_Task.h)(0x5CBC50D4)
@@ -2052,8 +2063,8 @@ I (..\DSP\Include\arm_math.h)(0x581CC64D)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\App\gimbal_behaviour.h)(0x5CBBCDE0)
-F (..\App\chassis_task.c)(0x5CB9D865)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\chassis_task.o --omf_browse ..\obj\chassis_task.crf --depend ..\obj\chassis_task.d)
-I (..\App\chassis_task.h)(0x5CBA7BC6)
+F (..\App\chassis_task.c)(0x5CBED8FF)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\chassis_task.o --omf_browse ..\obj\chassis_task.crf --depend ..\obj\chassis_task.d)
+I (..\App\chassis_task.h)(0x5CBEC9F1)
 I (..\USER\main.h)(0x5CB96B1F)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
 I (..\USER\stm32f4xx.h)(0x5C21D160)
@@ -2115,8 +2126,11 @@ I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\App\Detect_Task.h)(0x5C2F4012)
 I (..\App\INS_Task.h)(0x5CB702C0)
 I (..\App\chassis_behaviour.h)(0x5C3212F1)
-F (..\App\shoot.c)(0x5CB9DDBB)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\shoot.o --omf_browse ..\obj\shoot.crf --depend ..\obj\shoot.d)
-I (..\App\Shoot.h)(0x5CBBF898)
+I (..\App\Referee_DispatchTask.h)(0x5CBEEFE7)
+I (..\BSP\Referee.h)(0x5CBE9049)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
+F (..\App\shoot.c)(0x5CBF03BC)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\shoot.o --omf_browse ..\obj\shoot.crf --depend ..\obj\shoot.d)
+I (..\App\Shoot.h)(0x5CBEE77D)
 I (..\USER\main.h)(0x5CB96B1F)
 I (..\SYSTEM\sys\sys.h)(0x5C21D160)
 I (..\USER\stm32f4xx.h)(0x5C21D160)
@@ -2162,6 +2176,8 @@ I (..\App\user_lib.h)(0x5C3337F7)
 I (..\App\Gimbal_Task.h)(0x5CBC50D4)
 I (..\App\pid.h)(0x5CAF1857)
 I (..\Task\Auto_attackTask.h)(0x5CBC47CB)
+I (..\BSP\Referee.h)(0x5CBE9049)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
 I (..\App\gimbal_behaviour.h)(0x5CBBCDE0)
 I (..\App\Detect_Task.h)(0x5C2F4012)
 I (..\BSP\BasicPeripherals.h)(0x5CB82D05)
@@ -2169,6 +2185,66 @@ I (..\DSP\Include\arm_math.h)(0x581CC64D)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\BSP\FrictionMoterPWM.h)(0x5CBBF884)
+I (..\FreeRTOS\include\FreeRTOSConfig.h)(0x5CB566D6)
+I (..\FreeRTOS\include\FreeRTOS.h)(0x5C21D160)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
+I (..\FreeRTOS\include\projdefs.h)(0x5C21D160)
+I (..\FreeRTOS\include\portable.h)(0x5C21D160)
+I (..\FreeRTOS\include\deprecated_definitions.h)(0x5C21D160)
+I (..\FreeRTOS\portable\RVDS\ARM_CM4F\portmacro.h)(0x5C21D160)
+I (..\FreeRTOS\include\mpu_wrappers.h)(0x5C21D160)
+I (..\FreeRTOS\include\task.h)(0x5C21D160)
+I (..\FreeRTOS\include\list.h)(0x5C21D160)
+I (..\App\Referee_DispatchTask.h)(0x5CBEEFE7)
+F (..\App\circular_buffer.c)(0x5C766B43)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\circular_buffer.o --omf_browse ..\obj\circular_buffer.crf --depend ..\obj\circular_buffer.d)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\limits.h)(0x57F606B6)
+I (..\App\circular_buffer.h)(0x5C766B43)
+F (..\App\Referee_DispatchTask.c)(0x5CBEE784)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\FreeRTOSTask -I ..\IMU -I ..\Task -I ..\App -I ..\AHRS -I ..\DSP\Include --C99-I.\RTE\_Infatry_V2-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Software\Keil_v5\ARM\CMSIS\Include-ID:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Device\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DSTM32F427X -DUSE_STDPERIPH_DRIVER -D__FPU_USED -D__FPU_PRESENT -DARM_MATH_CM4 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING --C99-o ..\obj\referee_dispatchtask.o --omf_browse ..\obj\referee_dispatchtask.crf --depend ..\obj\referee_dispatchtask.d)
+I (..\App\Referee_DispatchTask.h)(0x5CBEEFE7)
+I (..\SYSTEM\sys\sys.h)(0x5C21D160)
+I (..\USER\stm32f4xx.h)(0x5C21D160)
+I (..\CORE\core_cm4.h)(0x5C21D160)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (..\CORE\core_cmInstr.h)(0x5C21D160)
+I (..\CORE\core_cmFunc.h)(0x5C21D160)
+I (..\CORE\core_cm4_simd.h)(0x5C21D160)
+I (..\USER\system_stm32f4xx.h)(0x5C21D160)
+I (..\USER\stm32f4xx_conf.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_adc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_crc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dbgmcu.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dma.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_exti.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_flash.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_gpio.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_i2c.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_iwdg.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_pwr.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rcc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rtc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_sdio.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_spi.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_syscfg.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_tim.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_usart.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_wwdg.h)(0x5C21D160)
+I (..\FWLIB\inc\misc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_cryp.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_hash.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_rng.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_can.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_dma2d.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_fmc.h)(0x5C21D160)
+I (..\FWLIB\inc\stm32f4xx_sai.h)(0x5C21D160)
+I (..\BSP\Referee.h)(0x5CBE9049)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5C8CD1AB)
+I (..\BSP\usart6.h)(0x5CBE96BF)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x57F606B8)
 I (..\FreeRTOS\include\FreeRTOSConfig.h)(0x5CB566D6)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5C21D160)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)

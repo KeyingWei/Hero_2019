@@ -4,7 +4,7 @@
 #include "stdio.h"
 #include "sys.h"
 
-#define AHRS_RC_LEN  120 	//定义接收字节数 68
+#define AHRS_RC_LEN  50 	//定义接收字节数 512
 
 enum{
 	Competition_Satus_e  = 0x0001,

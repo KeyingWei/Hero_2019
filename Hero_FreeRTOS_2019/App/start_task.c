@@ -13,6 +13,8 @@
 #include "calibrate_task.h"
 #include "chassis_task.h"
 #include "MainFocus_Usart.h"
+#include "Referee_DispatchTask.h"
+#include "usart.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 512
@@ -38,6 +40,7 @@ static TaskHandle_t CalibrateTask_Handler;
 #define Chassis_STK_SIZE 512
 TaskHandle_t ChassisTask_Handler;
 void Sned_MainFoucs_Task(void *pvParameters);
+void UsartDebugTask(void *parmas);
 
 void start_task(void *pvParameters)
 {	
@@ -75,20 +78,33 @@ void start_task(void *pvParameters)
                 (UBaseType_t)CALIBRATE_TASK_PRIO,
                 (TaskHandle_t *)&CalibrateTask_Handler);
 				
-//    xTaskCreate((TaskFunction_t)chassis_task,
-//                (const char *)"ChassisTask",
-//                (uint16_t)Chassis_STK_SIZE,
-//                (void *)NULL,
-//                (UBaseType_t)Chassis_TASK_PRIO,
-//                (TaskHandle_t *)&ChassisTask_Handler);
+    xTaskCreate((TaskFunction_t)chassis_task,
+                (const char *)"ChassisTask",
+                (uint16_t)Chassis_STK_SIZE,
+                (void *)NULL,
+                (UBaseType_t)Chassis_TASK_PRIO,
+                (TaskHandle_t *)&ChassisTask_Handler);
 
     xTaskCreate((TaskFunction_t)Sned_MainFoucs_Task,
-                (const char *)"ChassisTask",
+                (const char *)"Send_MainFocusTask",
                 (uint16_t)512,
                 (void *)NULL,
                 (UBaseType_t)4,
-                (TaskHandle_t *)&ChassisTask_Handler);					
+                (TaskHandle_t *)&ChassisTask_Handler);	
 
+    xTaskCreate((TaskFunction_t)DispchRefereeTask,
+                (const char *)"DispchRefereeTask",
+                (uint16_t)512,
+                (void *)NULL,
+                (UBaseType_t)5,
+                (TaskHandle_t *)&ChassisTask_Handler);				
+
+	xTaskCreate((TaskFunction_t)UsartDebugTask,
+                (const char *)"UsartDebugTask",
+                (uint16_t)512,
+                (void *)NULL,
+                (UBaseType_t)2,
+                (TaskHandle_t *)&ChassisTask_Handler);
     vTaskDelete(Start_Task_Handle); //删除开始任务
 				
     taskEXIT_CRITICAL();            //退出临界区
@@ -107,14 +123,24 @@ void StartTask()
 
 int8_t pitch;
 void Sned_MainFoucs_Task(void *pvParameters)
-{
-
+{	
     for(;;)
 	{	 
-      pitch	 = getPitchAngle();	
-	   Send_MessToMainFocus(0,getEenmyColor());
+	   Send_MessToMainFocus(0,GetEenmyColor());
 	   vTaskDelay(100);
 	   Send_MessToMainFocus(2,getPitchAngle() * 4);
+	}
+}
+
+void UsartDebugTask(void *parmas)
+{
+	Chassis_Motor_t *chassis_mess;
+	chassis_mess = getChassisGive_current();
+	for(;;)
+	{
+		//printf("power:%f\tmaxout:%f\r\n",GetRealPower(),GetChassisMaxOutput()); 
+	    printf(" %f  %f\tmaxout:%f  %d  %d  %d  %d\r\n",GetPowerBuffer(),GetRealPower(),GetChassisMaxOutput(),chassis_mess[0].give_current,chassis_mess[1].give_current,chassis_mess[2].give_current,chassis_mess[3].give_current);
+		vTaskDelay(100);
 	}
 }
 

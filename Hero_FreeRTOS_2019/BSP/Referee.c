@@ -80,15 +80,15 @@ void Referee_init(void)
 	USART_Cmd(USART6, ENABLE); 	
 	 
 	 NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
-     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3; 
-     NVIC_InitStructure.NVIC_IRQChannelSubPriority =3;                
+     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0; 
+     NVIC_InitStructure.NVIC_IRQChannelSubPriority =0;                
      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                         
      NVIC_Init(&NVIC_InitStructure);        
 
 
 }
  
- 
+int16_t max_len;
 void USART6_IRQHandler(void)  
 {  
     u16 i=0 ;
@@ -136,7 +136,10 @@ void USART6_IRQHandler(void)
                  //处理裁判系统数据
 			   Referee_read_hook(Rx_Buf_Referee[1],this_time_rx_len);	//read data
             }		   
-		}		     		
+		}
+		
+		if(max_len < this_time_rx_len)
+			max_len = this_time_rx_len;
     }  
     __nop(); 
 }  
@@ -161,7 +164,7 @@ void bubble_sort(float *p,char num)
 
 char  g_Referee_flag = 0 ;
 Power power  ; 
-
+int16_t crc_fail_cnt = 0;
 static void Referee_read_hook(uint8_t *rx_buf,uint8_t len)
 {
 	for(int i = 0; i < len; i ++)
@@ -178,7 +181,7 @@ static void Referee_read_hook(uint8_t *rx_buf,uint8_t len)
 				Referee_date1.CmdID  =  rx_buf[i+5] | rx_buf[i+6] << 8;
 				
 				 //对整包校验crc16
-				if(Verify_CRC16_Check_Sum(rx_buf,Referee_date1.frame_header.data_length + 9) == true)
+				if(Verify_CRC16_Check_Sum(rx_buf+i,Referee_date1.frame_header.data_length + 9) == true)
 				{
 					 switch(Referee_date1.CmdID)
 					 {
@@ -242,6 +245,12 @@ static void Referee_read_hook(uint8_t *rx_buf,uint8_t len)
 							break;								  		  
 					 }
 				}
+				else 
+				{
+					crc_fail_cnt++;
+				}
+				i += Referee_date1.frame_header.data_length + 9;
+				continue;
 			}
 	   }
     }

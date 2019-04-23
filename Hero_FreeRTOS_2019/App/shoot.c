@@ -34,6 +34,7 @@
 #include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "Referee_DispatchTask.h"
 
 #define shoot_fric1_on(pwm) fric1_on((pwm)) //摩擦轮1pwm宏定义
 #define shoot_fric2_on(pwm) fric2_on((pwm)) //摩擦轮2pwm宏定义
@@ -48,6 +49,10 @@ static const RC_ctrl_t *shoot_rc; //遥控器指针
  Shoot_Motor_t trigger_motor[3],fric_motor[2];          //射击数据
  shoot_mode_e shoot_mode = SHOOT_STOP; //射击状态机
 
+float    freOfSmallBullet =  4.5,    freOfBigBullet = 8.0f,speedOfBigBullet = 8.0f;
+int16_t  speedOfSmallBullet =  Fric_DOWN;
+
+char only_one_bulet_flag = 0;
 
 extern void getTriggerMotorMeasure(motor_measure_t *motor);
 
@@ -88,8 +93,8 @@ static void shoot_done_control(void);
   * @retval         void
   */
 static void shoot_ready_control(void);
-
-
+static void LevelToStopBulet(void);
+static void SetShootFreAndSpeed(void);
 /**
   * @brief          射击初始化，初始化PID，遥控器指针，电机指针
   * @author         RM
@@ -111,7 +116,8 @@ void shoot_init(void)
     //电机指针
     for(char i = 0;i<3;i++)
 	 {
-	     trigger_motor[i].shoot_motor_measure = get_shoot_Motor_Measure_Point(i);	
+	     trigger_motor[i].shoot_motor_measure = get_shoot_Motor_Measure_Point(i);
+		 trigger_motor[i].referee_data = GetRefereeDataPoint();//获取裁判系统数据
 	 }
 	 
 	 for(char i = 0;i<2;i++)
@@ -131,6 +137,7 @@ void shoot_init(void)
 	 
 	ramp_init(&trigger_motor[0].fric1_ramp, SHOOT_CONTROL_TIME * 0.001f, Fric_DOWN, Fric_OFF); 
     ramp_init(&trigger_motor[0].fric2_ramp, SHOOT_CONTROL_TIME * 0.001f, Fric_DOWN, Fric_OFF);
+	
 	
 	 for(char i = 0;i<3;i++)
 	 {
@@ -217,10 +224,10 @@ int16_t *shoot_control_loop(void)
 			if (rad_format(trigger_motor[1].set_angle - trigger_motor[1].angle) > 0.05f)
 			{
 				//角度达到判断
-				trigger_motor[1].speed_set = 4.5;
-				trigger_motor[1].run_time = xTaskGetTickCount();
+				trigger_motor[1].speed_set = freOfSmallBullet;
+				trigger_motor[1].run_time  = xTaskGetTickCount();
 				//堵转判断
-				if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > BLOCK_TIME && trigger_motor[1].run_time - trigger_motor[1].cmd_time < REVERSE_TIME + BLOCK_TIME && fabs(trigger_motor[1].speed) < (4.5 * 0.3f))
+				if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > BLOCK_TIME && trigger_motor[1].run_time - trigger_motor[1].cmd_time < REVERSE_TIME + BLOCK_TIME && fabs(trigger_motor[1].speed) < (4.5f * 0.3f))
 				{
 					trigger_motor[1].speed_set = -Ready_Trigger_Speed;
 				}
@@ -236,18 +243,24 @@ int16_t *shoot_control_loop(void)
 		}
 		else
 		{
-			trigger_motor[1].set_angle = trigger_motor[1].speed;
+			trigger_motor[1].set_angle = trigger_motor[1].angle;
 			trigger_motor[1].move_flag = 0;
 			trigger_motor[1].speed_set = 0;		  
 		}
+		
+		//根据等级在准备超热量时停止拨弹轮
+		LevelToStopBulet();
+		
+		//按键切换射速射频
+		SetShootFreAndSpeed();
 		
         //摩擦轮pwm
         static uint16_t fric_pwm1 = Fric_OFF;
         static uint16_t fric_pwm2 = Fric_OFF;
 		
 		//开启3510摩擦轮
-        fric_motor[0].speed_set =  -FRIC_MOTOR_SPEED;
-		fric_motor[1].speed_set =   FRIC_MOTOR_SPEED;
+        fric_motor[0].speed_set =  -speedOfBigBullet;
+		fric_motor[1].speed_set =   speedOfBigBullet;
 
         shoot_laser_on();       //激光开启
 
@@ -267,23 +280,23 @@ int16_t *shoot_control_loop(void)
 
 
 //鼠标右键按下加速摩擦轮，使得左键低速射击， 右键高速射击
-        static uint16_t up_time = 0;
-        if (trigger_motor[0].press_r)
-        {
-            up_time = UP_ADD_TIME;
-        }
+//        static uint16_t up_time = 0;
+//        if (trigger_motor[0].press_r)
+//        {
+//            up_time = UP_ADD_TIME;
+//        }
 
-        if (up_time > 0)
-        {
-            trigger_motor[0].fric1_ramp.max_value = Fric_UP;
-            trigger_motor[0].fric2_ramp.max_value = Fric_UP;
-            up_time--;
-        }
-        else
-        {
-            trigger_motor[0].fric1_ramp.max_value = Fric_DOWN;
-            trigger_motor[0].fric2_ramp.max_value = Fric_DOWN;
-        }
+//        if (up_time > 0)
+//        {
+            trigger_motor[0].fric1_ramp.max_value = speedOfSmallBullet;//Fric_UP;
+            trigger_motor[0].fric2_ramp.max_value = speedOfSmallBullet;//Fric_UP;
+//            up_time--;
+//        }
+//        else
+//        {
+//            trigger_motor[0].fric1_ramp.max_value = Fric_DOWN;
+//            trigger_motor[0].fric2_ramp.max_value = Fric_DOWN;
+//        }
 
         fric_pwm1 = (uint16_t)(trigger_motor[0].fric1_ramp.out);
         fric_pwm2 = (uint16_t)(trigger_motor[0].fric2_ramp.out);
@@ -358,27 +371,7 @@ static void Shoot_Set_Mode(void)
             shoot_mode = SHOOT_BULLET;
 			trigger_motor[2].last_butter_count = trigger_motor[2].BulletShootCnt;
         }
-		
-/*		if((trigger_motor[0].press_l && trigger_motor[0].last_press_l == 0))
-		{
-              shoot_mode = SHOOT_BULLET_15;
-              trigger_motor[1].last_butter_count = trigger_motor[1].BulletShootCnt;		   
-		}
-		
-		if((trigger_motor[0].press_r && trigger_motor[0].last_press_r == 0))
-		{
-             shoot_mode = SHOOT_BULLET_42;
-			 trigger_motor[0].last_butter_count = trigger_motor[0].BulletShootCnt;		
-             trigger_motor[2].last_butter_count = trigger_motor[2].BulletShootCnt;	 	
-		}
-		
-		if((trigger_motor[0].press_r && trigger_motor[0].last_press_r == 0) && (trigger_motor[0].press_l && trigger_motor[0].last_press_l == 0))
-		{
-            shoot_mode = SHOOT_BULLET;
-            for(char i=0;i<3;i++)
-				trigger_motor[i].last_butter_count = trigger_motor[i].BulletShootCnt;		   
-		}	
-*/		
+			
 		
         //鼠标长按一直进入射击状态 保持连发
         if (((trigger_motor[0].press_r_time == PRESS_LONG_TIME)) || (trigger_motor[0].rc_s_time == RC_S_LONG_TIME))
@@ -387,21 +380,7 @@ static void Shoot_Set_Mode(void)
             {
                 shoot_mode = SHOOT_BULLET;
             }
-        }
-//		else if(trigger_motor[0].press_l_time == PRESS_LONG_TIME)
-//		{
-//            if (shoot_mode != SHOOT_DONE_15)
-//            {
-//                shoot_mode = SHOOT_BULLET_15;
-//            }		    
-//		}
-//		else if(trigger_motor[0].press_r_time == PRESS_LONG_TIME)
-//		{
-//            if (shoot_mode != SHOOT_DONE_42)
-//            {
-//                shoot_mode = SHOOT_BULLET_42;
-//            }		
-//		}	
+        }	
     }
 	
     last_s = shoot_rc->rc.s[Shoot_RC_Channel];
@@ -543,6 +522,7 @@ static void Shoot_Feedback_Update(void)
   */
 static void shoot_bullet_control(void)
 {
+	static  char bullet_empty = 0; 
     //子弹射出判断
     if (trigger_motor[2].key == SWITCH_TRIGGER_OFF)
     {
@@ -567,7 +547,7 @@ static void shoot_bullet_control(void)
 	if (rad_format(trigger_motor[2].set_angle - trigger_motor[2].angle) > 0.05f)
 	{
 		//没到达一直设置旋转速度
-		trigger_motor[2].speed_set = TRIGGER_SPEED;
+		trigger_motor[2].speed_set = freOfBigBullet;
 		trigger_motor[2].run_time  = xTaskGetTickCount();
 
 		//堵转判断
@@ -583,6 +563,18 @@ static void shoot_bullet_control(void)
 	else
 	{
 		trigger_motor[2].move_flag = 0;	
+		//只有一个子弹
+		if(trigger_motor[2].key == SWITCH_TRIGGER_ON)
+		{
+		    bullet_empty++;
+		}
+		
+		if(bullet_empty > 5)
+		{			
+			bullet_empty = 0;
+			only_one_bulet_flag = 1;
+			shoot_mode = SHOOT_READY;
+		}
 	}
 }
 /**
@@ -621,13 +613,13 @@ static void shoot_done_control(void)
   */
 static void shoot_ready_control(void)
 {
- static char add_bullet_num = 0,add_bullet_flag = 0;
+ static char add_bullet_num = 0,add_bullet_flag = 0,only_one_cnt = 0;
     if (trigger_motor[2].shoot_done)
     {
         trigger_motor[2].shoot_done = 0;
     }
 
-    if (trigger_motor[2].key == SWITCH_TRIGGER_ON)
+    if (trigger_motor[2].key == SWITCH_TRIGGER_ON && only_one_bulet_flag == 0)
     {
         //判断子弹到达微动开关处
         trigger_motor[2].set_angle = trigger_motor[2].angle;
@@ -637,13 +629,14 @@ static void shoot_ready_control(void)
         trigger_motor[2].move_flag = 0;
         trigger_motor[2].key_time = 0;
 		
+		only_one_bulet_flag = 0;
 		add_bullet_flag = 0;
 		add_bullet_num  = 0;
 		trigger_motor[0].speed_set  = 0;
 		trigger_motor[0].move_flag = 0;
 		trigger_motor[0].set_angle = trigger_motor[0].angle;
     }
-    else if (trigger_motor[2].key == SWITCH_TRIGGER_OFF)
+    else if (trigger_motor[2].key == SWITCH_TRIGGER_OFF || only_one_bulet_flag == 1)
     {     
 		if(trigger_motor[2].move_flag == 0)
 		{
@@ -673,6 +666,7 @@ static void shoot_ready_control(void)
             add_bullet_num++;
             if(add_bullet_num >= 3)
 			{
+			  
 			   add_bullet_num = 0;
 			   add_bullet_flag = 1;
 			}				      
@@ -705,7 +699,88 @@ static void shoot_ready_control(void)
 			else
 			{
 				trigger_motor[0].move_flag = 0;
-			}		
+				if( only_one_bulet_flag == 1)
+				{
+					only_one_cnt++;
+				}
+				if(only_one_cnt >= 10)
+				{
+				   only_one_bulet_flag = 0;
+				}
+			}
+			
 		}
     }
+}
+
+
+static void LevelToStopBulet()
+{
+	if(trigger_motor[0].referee_data->game_robot_state.robot_level == 1)
+	{		 
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat0 > 240 -30)
+		{
+			trigger_motor[1].speed_set = 0;
+		}
+		
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat1 > 150.0f -100.0f)
+		{
+			shoot_mode = SHOOT_READY;
+			trigger_motor[2].speed_set = 0;
+		}
+	}
+	else if(trigger_motor[0].referee_data->game_robot_state.robot_level == 2)
+	{
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat0 > 360 -30)
+		{
+			trigger_motor[1].speed_set = 0;
+		}	
+		
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat1 > 250.0f -100.0f)
+		{
+			shoot_mode = SHOOT_READY;
+			trigger_motor[2].speed_set = 0;
+		}
+	}
+	else if(trigger_motor[0].referee_data->game_robot_state.robot_level == 3)
+	{
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat0 > 480 -30)
+		{
+			trigger_motor[1].speed_set = 0;
+		}
+		
+		if(trigger_motor[0].referee_data->power_heat_data.shooter_heat1 > 400.0f - 100.0f)
+		{
+			shoot_mode = SHOOT_READY;
+			trigger_motor[2].speed_set = 0;
+		}		
+	}	
+}
+
+static void SetShootFreAndSpeed()
+{
+	//C键低速高射频模式
+   if(shoot_rc->key.v == KEY_PRESSED_OFFSET_C)
+   {
+	   freOfSmallBullet   =  8.5f;
+	   speedOfSmallBullet =  1100;
+	   freOfBigBullet     =  11.0f;
+	   speedOfBigBullet   =  8.0f;          
+   }
+   else if(shoot_rc->key.v == KEY_PRESSED_OFFSET_V)
+   {
+	   //V键中射速中射频模式
+ 	   freOfSmallBullet   =  6.5f;
+	   speedOfSmallBullet =  1200;
+	   freOfBigBullet     =  9.5f;
+	   speedOfBigBullet   =  10.0f;   
+   }
+   else if(shoot_rc->key.v == KEY_PRESSED_OFFSET_B)
+   {
+	   //V键高射速低射频模式
+ 	   freOfSmallBullet   =  4.5f;
+	   speedOfSmallBullet =  1350;
+	   freOfBigBullet     =  8.5f;
+	   speedOfBigBullet   =  12.0f;		
+   }
 }

@@ -14,6 +14,7 @@
 #include "timer.h"
 #include "adc.h"
 #include "calibrate_task.h"
+#include "usart6.h"
 
 void BSP_Init(void);
 //四个24v 输出 依次开启 间隔 709us
@@ -50,7 +51,10 @@ void BSP_Init()
 	//初始化串口用于妙算通讯
 	MainFocusConfig();
 	//初始化串口用于裁判系统通讯	
-	Referee_init();
+	//Referee_init();
+	USART6_Init();
+	USART6_DMA_Tx_Init();
+	USART6_DMA_Rx_Init();
 	//初始化can1,can2
 	MoterCanInit();
     //定时器6 初始化

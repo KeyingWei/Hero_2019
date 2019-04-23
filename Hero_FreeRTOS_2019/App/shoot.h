@@ -26,6 +26,7 @@
 #include "RemotDbus.h"
 #include "user_lib.h"
 #include "Gimbal_Task.h"
+#include "Referee.h"
 //射击发射开关通道数据
 #define Shoot_RC_Channel    1
 //云台模式使用的开关通道
@@ -155,6 +156,7 @@ typedef struct
     uint8_t shoot_done_time;
     int16_t BulletShootCnt;
     int16_t last_butter_count;
+	Referee_Date *referee_data;
 } Shoot_Motor_t;
 
 typedef enum

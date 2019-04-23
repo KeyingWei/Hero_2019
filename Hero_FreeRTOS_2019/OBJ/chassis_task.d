@@ -63,3 +63,6 @@
 ..\obj\chassis_task.o: ..\App\Detect_Task.h
 ..\obj\chassis_task.o: ..\App\INS_Task.h
 ..\obj\chassis_task.o: ..\App\chassis_behaviour.h
+..\obj\chassis_task.o: ..\App\Referee_DispatchTask.h
+..\obj\chassis_task.o: ..\BSP\Referee.h
+..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

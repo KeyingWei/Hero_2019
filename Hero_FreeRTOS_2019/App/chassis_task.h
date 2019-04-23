@@ -158,10 +158,11 @@ typedef struct
   fp32 chassis_yaw;   //陀螺仪和云台电机叠加的yaw角度
   fp32 chassis_pitch; //陀螺仪和云台电机叠加的pitch角度
   fp32 chassis_roll;  //陀螺仪和云台电机叠加的roll角度
-
+  fp32 real_power;
 } chassis_move_t;
 
 extern void chassis_task(void *pvParameters);
 extern void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *chassis_move_rc_to_vector);
-
+extern float  GetChassisMaxOutput(void);
+extern Chassis_Motor_t *getChassisGive_current(void );
 #endif

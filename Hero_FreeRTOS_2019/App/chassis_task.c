@@ -31,6 +31,8 @@
 
 #include "chassis_behaviour.h"
 
+#include "Referee_DispatchTask.h"
+
 #define rc_deadline_limit(input, output, dealine)        \
     {                                                    \
         if ((input) > (dealine) || (input) < -(dealine)) \
@@ -63,10 +65,11 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop);
 uint32_t chassis_high_water;
 #endif
 
+static void CalcChassisMaxOutput(void);
 //主任务
 void chassis_task(void *pvParameters)
 {
-	
+	static uint64_t cnt = 0;
     //空闲一段时间
     vTaskDelay(CHASSIS_TASK_INIT_TIME);
     //底盘初始化
@@ -89,6 +92,13 @@ void chassis_task(void *pvParameters)
         chassis_set_contorl(&chassis_move);
         //底盘控制PID计算
         chassis_control_loop(&chassis_move);
+		
+		cnt++;
+		
+		if(cnt >= CHASSIS_CONTROL_TIME_MS * 5)
+		{
+			CalcChassisMaxOutput();	
+		}
  
 		 int16_t chassis_set_current[4];
         if (!(toe_is_error(ChassisMotor1TOE) || toe_is_error(ChassisMotor2TOE) || toe_is_error(ChassisMotor3TOE) || toe_is_error(ChassisMotor4TOE)))
@@ -213,6 +223,8 @@ static void chassis_feedback_update(chassis_move_t *chassis_move_update)
     {
         return;
     }
+	
+	chassis_move_update->real_power = GetRealPower();
 
     uint8_t i = 0;
     for (i = 0; i < 4; i++)
@@ -412,3 +424,33 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop)
         chassis_move_control_loop->motor_chassis[i].give_current = (int16_t)(chassis_move_control_loop->motor_speed_pid[i].out);
     }
 }
+
+static void CalcChassisMaxOutput()
+{
+	float error_out;	
+	float maxout;
+	error_out = (60.0f - GetPowerBuffer()) * 0.0167f;	
+	maxout = 16000.0f * ( 1.0f - error_out);
+	
+
+	if(maxout >= M3505_MOTOR_SPEED_PID_MAX_OUT)
+		maxout = M3505_MOTOR_SPEED_PID_MAX_OUT;
+	else if(maxout <= 1000)
+		maxout = 1000;
+	
+	for(char i = 0;i<4;i++)
+	{
+	   chassis_move.motor_speed_pid[i].max_out = maxout;
+	}
+}
+
+float  GetChassisMaxOutput()
+{
+	return    chassis_move.motor_speed_pid[0].max_out; 
+}
+
+Chassis_Motor_t *getChassisGive_current()
+{
+  return chassis_move.motor_chassis;
+}
+

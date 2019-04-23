@@ -71,3 +71,4 @@
 ..\obj\main.o: ..\BSP\timer.h
 ..\obj\main.o: ..\BSP\adc.h
 ..\obj\main.o: ..\App\calibrate_task.h
+..\obj\main.o: ..\BSP\usart6.h

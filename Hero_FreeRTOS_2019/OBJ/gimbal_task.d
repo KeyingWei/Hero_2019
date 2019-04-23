@@ -63,3 +63,5 @@
 ..\obj\gimbal_task.o: ..\App\detect_task.h
 ..\obj\gimbal_task.o: ..\App\gimbal_behaviour.h
 ..\obj\gimbal_task.o: ..\App\shoot.h
+..\obj\gimbal_task.o: ..\BSP\Referee.h
+..\obj\gimbal_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

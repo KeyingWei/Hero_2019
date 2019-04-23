@@ -430,11 +430,6 @@
               <FilePath>..\BSP\MainFocus_Usart.c</FilePath>
             </File>
             <File>
-              <FileName>Referee.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Referee.c</FilePath>
-            </File>
-            <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\adc.c</FilePath>
@@ -468,6 +463,11 @@
               <FileName>power_ctrl.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\power_ctrl.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart6.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\usart6.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -688,6 +688,16 @@
               <FileName>shoot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\shoot.c</FilePath>
+            </File>
+            <File>
+              <FileName>circular_buffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\circular_buffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Referee_DispatchTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\Referee_DispatchTask.c</FilePath>
             </File>
           </Files>
         </Group>

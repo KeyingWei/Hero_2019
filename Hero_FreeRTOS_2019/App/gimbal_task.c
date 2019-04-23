@@ -196,13 +196,7 @@ float set_p, fdb_p,set_y,fdb_y;
 static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 {
 	static char last_aim_flag = 0,auto_flag = 0;
-	static float last_p = 0.0f,last_y = 0.0f;
-	
-	static const fp32 Pitch_speed_pid[3] = {PITCH_SPEED_PID_KP, PITCH_SPEED_PID_KI, PITCH_SPEED_PID_KD};
-    static const fp32 Yaw_speed_pid[3]   = {YAW_SPEED_PID_KP, YAW_SPEED_PID_KI, YAW_SPEED_PID_KD};
-	
-    static const fp32 Pitch_aim_speed_pid[3] = {1000.0f, 0.0f, 0.0f};
-    static const fp32 Yaw_aim_speed_pid[3]   = {10000.0f, 0.0f, 0.0f};
+
 	
     if (gimbal_control_loop == NULL)
     {
@@ -220,28 +214,12 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 		if(gimbal_control_loop->auto_aim_flag == 1 &&  last_aim_flag == 0  && auto_flag == 0 )
 		{
 		   auto_flag = 1;
-		   last_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 
-
-//			time_delay = 8;
-//		   //初始化yaw电机pid
-//			GIMBAL_PID_Init(&gimbal_control_loop->gimbal_yaw_motor.gimbal_motor_absolute_angle_pid, YAW_GYRO_ABSOLUTE_PID_MAX_OUT, YAW_GYRO_ABSOLUTE_PID_MAX_IOUT, 2.0f, 0.0f, 0.0f);
-//			PID_Init(&gimbal_control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid, PID_POSITION, Yaw_speed_pid, YAW_SPEED_PID_MAX_OUT, YAW_SPEED_PID_MAX_IOUT);
-//			//初始化pitch电机pid
-//			GIMBAL_PID_Init(&gimbal_control_loop->gimbal_pitch_motor.gimbal_motor_relative_angle_pid, PITCH_ENCODE_RELATIVE_PID_MAX_OUT, PITCH_ENCODE_RELATIVE_PID_MAX_IOUT, 2.0f, 0.0f, 0.0f);
-//			PID_Init(&gimbal_control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid, PID_POSITION, Pitch_aim_speed_pid, PITCH_SPEED_PID_MAX_OUT, PITCH_SPEED_PID_MAX_IOUT);			
+		 //  last_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 
 		}
 		else if(gimbal_control_loop->auto_aim_flag == 0 && last_aim_flag == 1 && auto_flag == 1)
 		{
 		    auto_flag = 0;
-		    gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set =  gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 
-
-//			time_delay = 1;
-//		   //初始化yaw电机pid
-//			GIMBAL_PID_Init(&gimbal_control_loop->gimbal_yaw_motor.gimbal_motor_absolute_angle_pid, YAW_GYRO_ABSOLUTE_PID_MAX_OUT, YAW_GYRO_ABSOLUTE_PID_MAX_IOUT, YAW_GYRO_ABSOLUTE_PID_KP, YAW_GYRO_ABSOLUTE_PID_KI, YAW_GYRO_ABSOLUTE_PID_KD);
-//			PID_Init(&gimbal_control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid, PID_POSITION, Yaw_speed_pid, YAW_SPEED_PID_MAX_OUT, YAW_SPEED_PID_MAX_IOUT);
-//			//初始化pitch电机pid	
-//			GIMBAL_PID_Init(&gimbal_control_loop->gimbal_pitch_motor.gimbal_motor_relative_angle_pid, PITCH_ENCODE_RELATIVE_PID_MAX_OUT, PITCH_ENCODE_RELATIVE_PID_MAX_IOUT, PITCH_ENCODE_RELATIVE_PID_KP, PITCH_ENCODE_RELATIVE_PID_KI, PITCH_ENCODE_RELATIVE_PID_KD);
-//			PID_Init(&gimbal_control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid, PID_POSITION, Pitch_speed_pid, PITCH_SPEED_PID_MAX_OUT, PITCH_SPEED_PID_MAX_IOUT);						
+		    gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set =  gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 				
 		}
 		
 		if(auto_flag == 1)
@@ -249,8 +227,7 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 			gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set = 0;
 			gimbal_control_loop->gimbal_yaw_motor.absolute_angle =  -rad_format(gimbal_control_loop->autodata->YawAxiaAngle);	
 		    set_y = 	gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set;
-		    fdb_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle;
-		
+		    fdb_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle;		
 		}
 			
         gimbal_motor_absolute_angle_control(&gimbal_control_loop->gimbal_yaw_motor);
@@ -277,7 +254,7 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
         //gyro角度控制	 
 		if(gimbal_control_loop->auto_aim_flag == 1 &&  last_aim_flag == 0  )
 		{
-		   last_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;  
+		   //last_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;  
 		}
 		else if(gimbal_control_loop->auto_aim_flag == 0 && last_aim_flag == 1)
 		{
@@ -286,11 +263,16 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 		
 		if(auto_flag == 1)
 		{		
-			gimbal_control_loop->gimbal_pitch_motor.relative_angle_set = 0;
+			 
+			gimbal_control_loop->gimbal_pitch_motor.relative_angle_set = 0.0f;
 			gimbal_control_loop->gimbal_pitch_motor.relative_angle = - rad_format(gimbal_control_loop->autodata->PitchAxiaAngle  + 4.0f/180.0f * 3.14f);	
 		
-		  set_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle_set;
-		  fdb_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;
+			if(gimbal_control_loop->autodata->PitchAxiaAngle == 0.0f)
+			{
+				gimbal_control_loop->gimbal_pitch_motor.relative_angle = 0.0f;
+			}
+		   set_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle_set;
+		   fdb_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;
 		}
 		
         gimbal_motor_relative_angle_control(&gimbal_control_loop->gimbal_pitch_motor);

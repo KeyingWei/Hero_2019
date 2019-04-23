@@ -46,6 +46,8 @@
 ..\obj\shoot.o: ..\App\Gimbal_Task.h
 ..\obj\shoot.o: ..\App\pid.h
 ..\obj\shoot.o: ..\Task\Auto_attackTask.h
+..\obj\shoot.o: ..\BSP\Referee.h
+..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\shoot.o: ..\App\gimbal_behaviour.h
 ..\obj\shoot.o: ..\App\Detect_Task.h
 ..\obj\shoot.o: ..\BSP\BasicPeripherals.h
@@ -64,3 +66,4 @@
 ..\obj\shoot.o: ..\FreeRTOS\include\mpu_wrappers.h
 ..\obj\shoot.o: ..\FreeRTOS\include\task.h
 ..\obj\shoot.o: ..\FreeRTOS\include\list.h
+..\obj\shoot.o: ..\App\Referee_DispatchTask.h
