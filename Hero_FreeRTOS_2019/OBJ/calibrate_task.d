@@ -51,6 +51,7 @@
 ..\obj\calibrate_task.o: ..\USER\pid_modify.h
 ..\obj\calibrate_task.o: ..\App\user_lib.h
 ..\obj\calibrate_task.o: ..\Task\Auto_attackTask.h
+..\obj\calibrate_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\calibrate_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
 ..\obj\calibrate_task.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\calibrate_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

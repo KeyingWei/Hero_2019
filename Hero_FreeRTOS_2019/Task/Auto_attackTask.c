@@ -1,6 +1,5 @@
 #include "Auto_attackTask.h"
-#include <string.h>
-#include "freertostask.h"
+
 
 AUTODATA AutoData; 
  uint8_t mainfocus_rx_buffer[2][100]={0};
@@ -54,15 +53,25 @@ void receiveMainFocusData(uint8_t *buff)
 	{
 		AutoData.PitchAxiaAngle = AutoData.PitchAxiaAngle ;// 
 	}
-	
-
 }	
+
+
 
 AUTODATA *GetAutoDataPoint()
 {
    return &AutoData; 
 }
 
-
+bool iSIdentifySuccess()
+{
+   if(Auto_Origion.YawAxiaAngle !=0 ||Auto_Origion.PitchAxiaAngle!=0)
+   {
+      return true;
+   }
+   else 
+   {
+	  return false;
+   }
+}
 
 

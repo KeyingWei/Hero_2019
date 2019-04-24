@@ -2,6 +2,8 @@
 #define _AUTO_ATTACKTASK_H_
 
 #include "stm32f4xx.h"
+#include "stdbool.h"
+#include "string.h"
 
 void USART3_Configuration(void);
 
@@ -58,6 +60,7 @@ void RUND_MODE(void);
 void MainFocusConfig(void);
 void receiveMainFocusData(uint8_t *buf);
 AUTODATA *GetAutoDataPoint(void);
+extern bool iSIdentifySuccess(void);
 
 #endif
 

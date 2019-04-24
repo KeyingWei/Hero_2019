@@ -41,7 +41,7 @@ static TaskHandle_t CalibrateTask_Handler;
 TaskHandle_t ChassisTask_Handler;
 void Sned_MainFoucs_Task(void *pvParameters);
 void UsartDebugTask(void *parmas);
-
+void Send_ClientData_Task(void *parmas);
 void start_task(void *pvParameters)
 {	
 	taskENTER_CRITICAL();
@@ -91,6 +91,13 @@ void start_task(void *pvParameters)
                 (void *)NULL,
                 (UBaseType_t)4,
                 (TaskHandle_t *)&ChassisTask_Handler);	
+				
+    xTaskCreate((TaskFunction_t)Send_ClientData_Task,
+                (const char *)"Send_ClientData_Task",
+                (uint16_t)512,
+                (void *)NULL,
+                (UBaseType_t)4,
+                (TaskHandle_t *)&ChassisTask_Handler);				
 
     xTaskCreate((TaskFunction_t)DispchRefereeTask,
                 (const char *)"DispchRefereeTask",
@@ -125,11 +132,24 @@ int8_t pitch;
 void Sned_MainFoucs_Task(void *pvParameters)
 {	
     for(;;)
-	{	 
+	{	
 	   Send_MessToMainFocus(0,GetEenmyColor());
 	   vTaskDelay(100);
 	   Send_MessToMainFocus(2,getPitchAngle() * 4);
+	   vTaskDelay(100);
 	}
+}
+
+void Send_ClientData_Task(void *parmas)
+{
+	TickType_t PreviousWakeTime;
+	const TickType_t TimerIncrement =  pdMS_TO_TICKS(100);
+	PreviousWakeTime = xTaskGetTickCount();
+	for(;;)
+	{
+	  SendDataToClient();
+	  vTaskDelayUntil(&PreviousWakeTime,TimerIncrement);
+	}		
 }
 
 void UsartDebugTask(void *parmas)

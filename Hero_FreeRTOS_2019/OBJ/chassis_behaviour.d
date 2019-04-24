@@ -47,8 +47,9 @@
 ..\obj\chassis_behaviour.o: ..\BSP\RemotDbus.h
 ..\obj\chassis_behaviour.o: ..\App\user_lib.h
 ..\obj\chassis_behaviour.o: ..\Task\Auto_attackTask.h
+..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\chassis_behaviour.o: ..\DSP\Include\arm_math.h
 ..\obj\chassis_behaviour.o: ..\CORE\core_cm4.h
-..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\chassis_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\chassis_behaviour.o: ..\App\gimbal_behaviour.h

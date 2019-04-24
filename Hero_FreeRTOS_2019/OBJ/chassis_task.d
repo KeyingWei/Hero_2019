@@ -46,6 +46,8 @@
 ..\obj\chassis_task.o: ..\BSP\RemotDbus.h
 ..\obj\chassis_task.o: ..\App\user_lib.h
 ..\obj\chassis_task.o: ..\Task\Auto_attackTask.h
+..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\chassis_task.o: ..\FreeRTOS\include\FreeRTOSConfig.h
 ..\obj\chassis_task.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -58,7 +60,6 @@
 ..\obj\chassis_task.o: ..\FreeRTOS\include\list.h
 ..\obj\chassis_task.o: ..\DSP\Include\arm_math.h
 ..\obj\chassis_task.o: ..\CORE\core_cm4.h
-..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\chassis_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\chassis_task.o: ..\App\Detect_Task.h
 ..\obj\chassis_task.o: ..\App\INS_Task.h

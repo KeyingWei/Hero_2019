@@ -174,6 +174,19 @@ typedef struct _power
 	float error[3];
 }Power;
 
+typedef __packed struct _Client
+{
+	frame_header_t head;
+	uint16_t cmd_id;
+	ext_student_interactive_header_data_t student_interactive_header_data;
+	float customize_data1;
+	float customize_data2;
+	float customize_data3;
+	uint8_t Indicator_light : 6;
+	uint8_t reverse:2;
+	uint16_t crc16;
+}clientData;
+
 
 extern  Referee_Date Referee_date1;
 extern  u16 Usart1_RX_Cou  ;

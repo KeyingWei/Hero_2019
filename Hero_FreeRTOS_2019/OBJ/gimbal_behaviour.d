@@ -46,9 +46,10 @@
 ..\obj\gimbal_behaviour.o: ..\USER\pid_modify.h
 ..\obj\gimbal_behaviour.o: ..\App\user_lib.h
 ..\obj\gimbal_behaviour.o: ..\Task\Auto_attackTask.h
+..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\gimbal_behaviour.o: ..\DSP\Include\arm_math.h
 ..\obj\gimbal_behaviour.o: ..\CORE\core_cm4.h
-..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\gimbal_behaviour.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\gimbal_behaviour.o: ..\BSP\buzzer.h
 ..\obj\gimbal_behaviour.o: ..\App\Detect_Task.h

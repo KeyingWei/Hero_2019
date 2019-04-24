@@ -46,6 +46,8 @@
 ..\obj\shoot.o: ..\App\Gimbal_Task.h
 ..\obj\shoot.o: ..\App\pid.h
 ..\obj\shoot.o: ..\Task\Auto_attackTask.h
+..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\shoot.o: ..\BSP\Referee.h
 ..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\shoot.o: ..\App\gimbal_behaviour.h
@@ -53,7 +55,6 @@
 ..\obj\shoot.o: ..\BSP\BasicPeripherals.h
 ..\obj\shoot.o: ..\DSP\Include\arm_math.h
 ..\obj\shoot.o: ..\CORE\core_cm4.h
-..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\shoot.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\shoot.o: ..\BSP\FrictionMoterPWM.h
 ..\obj\shoot.o: ..\FreeRTOS\include\FreeRTOSConfig.h

@@ -8,5 +8,6 @@ uint8_t GetEenmyColor(void);
 float GetRealPower(void);
 float GetPowerBuffer(void);
 Referee_Date *GetRefereeDataPoint(void);
+void SendDataToClient(void);
 
 #endif

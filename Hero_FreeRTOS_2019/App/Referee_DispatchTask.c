@@ -5,13 +5,15 @@
 #include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "BasicPeripherals.h"
+#include "usart6.h"
 
 unsigned char Transmission_BufferOfUsart6[50] = {0};
 Referee_Date Referee_date1;
 
 unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
 uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength);
+void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
 
 int16_t crc_fail_cnt = 0;
 	unsigned int Len = 0,frame_len;
@@ -167,6 +169,34 @@ float GetPowerBuffer()
 Referee_Date *GetRefereeDataPoint()
 {
 	return &Referee_date1;
+}
+
+extern bool iSIdentifySuccess(void);
+void Append_CRC16_Check_Sum(uint8_t * pchMessage,uint32_t dwLength);
+void SendDataToClient()
+{
+	static clientData data;
+     
+	data.head.sof = 0XA5;
+	data.head.data_length = 19+9;
+	data.head.seq++;
+    Append_CRC8_Check_Sum((uint8_t *)&data.head,sizeof(data.head));
+   
+    data.cmd_id = Robot_Interaction;
+    
+    data.student_interactive_header_data.data_cmd_id = 0xD180; 
+    data.student_interactive_header_data.send_ID =  Referee_date1.game_robot_state.robot_id;
+    data.student_interactive_header_data.receiver_ID = (Referee_date1.game_robot_state.robot_id ==  1)? 0x0101:0x0111; 
+    
+    data.customize_data1 = 0.0f;
+    data.customize_data2 = 0.0f;
+    data.customize_data3 = 0.0f;
+   // data.Indicator_light =  iSIdentifySuccess() ? (data.Indicator_light |(1<<0)):data.Indicator_light & (~(1<<0));
+	//data.Indicator_light =	Butten_Trig_Pin     ? data.Indicator_light & (~(1<<1)):(data.Indicator_light |(1<<1));
+   
+    Append_CRC16_Check_Sum((uint8_t *)&data,sizeof(data));
+	 
+	USART6_Send((uint8_t *)&data,sizeof(data));  
 }
 
 

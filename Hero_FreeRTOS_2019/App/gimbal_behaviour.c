@@ -191,7 +191,7 @@ void gimbal_behaviour_mode_set(Gimbal_Control_t *gimbal_mode_set)
     }
     else if (gimbal_behaviour == GIMBAL_MOTIONLESS)
     {
-        gimbal_mode_set->gimbal_yaw_motor.gimbal_motor_mode   = GIMBAL_MOTOR_GYRO;
+        gimbal_mode_set->gimbal_yaw_motor.gimbal_motor_mode   = GIMBAL_MOTOR_ENCONDE;
         gimbal_mode_set->gimbal_pitch_motor.gimbal_motor_mode = GIMBAL_MOTOR_ENCONDE;
     }
 	else if(gimbal_behaviour == GIMBAL_AUTO_AIM)
@@ -306,6 +306,7 @@ bool_t gimbal_cmd_to_shoot_stop(void)
   * @param[in]      云台数据指针
   * @retval         返回空
   */
+extern uint8_t isChassisSwing(void);
 static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
 {
     if (gimbal_mode_set == NULL)
@@ -414,9 +415,9 @@ static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
     }
 
     static uint16_t motionless_time = 0;
-    if (gimbal_behaviour == GIMBAL_ABSOLUTE_ANGLE)
+    if (gimbal_behaviour == GIMBAL_ABSOLUTE_ANGLE && isChassisSwing() == 0 && gimbal_mode_set->auto_aim_flag == 0)
     {
-        //遥控器 键盘均无输入，进入motionless状态
+        //遥控器 键盘均无输入，且底盘不处于扭腰模式时进入motionless状态
         if (int_abs(gimbal_mode_set->gimbal_rc_ctrl->rc.ch[0]) < GIMBAL_MOTIONLESS_RC_DEADLINE && int_abs(gimbal_mode_set->gimbal_rc_ctrl->rc.ch[1]) < GIMBAL_MOTIONLESS_RC_DEADLINE && int_abs(gimbal_mode_set->gimbal_rc_ctrl->rc.ch[2]) < GIMBAL_MOTIONLESS_RC_DEADLINE && int_abs(gimbal_mode_set->gimbal_rc_ctrl->rc.ch[3]) < GIMBAL_MOTIONLESS_RC_DEADLINE && int_abs(gimbal_mode_set->gimbal_rc_ctrl->mouse.x) < GIMBAL_MOTIONLESS_RC_DEADLINE && int_abs(gimbal_mode_set->gimbal_rc_ctrl->mouse.y) < GIMBAL_MOTIONLESS_RC_DEADLINE && gimbal_mode_set->gimbal_rc_ctrl->key.v == 0 && gimbal_mode_set->gimbal_rc_ctrl->mouse.press_l == 0 && gimbal_mode_set->gimbal_rc_ctrl->mouse.press_r == 0)
         {
             if (motionless_time < GIMBAL_MOTIONLESS_TIME_MAX)
@@ -429,7 +430,7 @@ static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
             motionless_time = 0;
         }
 
-        if (motionless_time == GIMBAL_MOTIONLESS_TIME_MAX && gimbal_mode_set->auto_aim_flag == 0)
+        if (motionless_time == GIMBAL_MOTIONLESS_TIME_MAX )
         {
             gimbal_behaviour = GIMBAL_MOTIONLESS;
         }
@@ -678,4 +679,9 @@ static void gimbal_auto_aim_control(fp32 *yaw, fp32 *pitch, Gimbal_Control_t *gi
 		
 	*yaw   = 0;//gimbal_control_set->autodata->YawAxiaAngle * ration_y;
 	*pitch = 0;// gimbal_control_set->autodata->PitchAxiaAngle * ration_p ;	
+}
+
+uint8_t IsGimbalMotionless()
+{
+   return gimbal_behaviour == GIMBAL_MOTIONLESS;
 }

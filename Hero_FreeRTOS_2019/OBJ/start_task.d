@@ -60,6 +60,8 @@
 ..\obj\start_task.o: ..\App\pid.h
 ..\obj\start_task.o: ..\App\user_lib.h
 ..\obj\start_task.o: ..\Task\Auto_attackTask.h
+..\obj\start_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\start_task.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\start_task.o: ..\App\INS_task.h
 ..\obj\start_task.o: ..\App\detect_task.h
 ..\obj\start_task.o: ..\BSP\BasicPeripherals.h

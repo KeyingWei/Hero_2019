@@ -60,5 +60,6 @@
 ..\obj\stm32f4xx_it.o: ..\BSP\RemotDbus.h
 ..\obj\stm32f4xx_it.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\stm32f4xx_it.o: ..\Task\Auto_attackTask.h
+..\obj\stm32f4xx_it.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\stm32f4xx_it.o: ..\App\detect_task.h
 ..\obj\stm32f4xx_it.o: ..\USER\main.h

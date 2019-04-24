@@ -234,7 +234,7 @@ static void chassis_no_move_control(fp32 *vx_set, fp32 *vy_set, fp32 *wz_set, ch
   * @param[in]      chassis_move_rc_to_vector底盘数据
   * @retval         返回空
   */
-
+static uint8_t swing_flag = 0;
 static void chassis_infantry_follow_gimbal_yaw_control(fp32 *vx_set, fp32 *vy_set, fp32 *angle_set, chassis_move_t *chassis_move_rc_to_vector)
 {
     if (vx_set == NULL || vy_set == NULL || angle_set == NULL || chassis_move_rc_to_vector == NULL)
@@ -253,7 +253,7 @@ static void chassis_infantry_follow_gimbal_yaw_control(fp32 *vx_set, fp32 *vy_se
     //add_time 是摇摆角度改变的快慢，最大越快
     static fp32 const add_time = PI / 250.0f;
     //使能摇摆标志位
-    static uint8_t swing_flag = 0;
+ 
 
     //计算遥控器的原始输入信号
 
@@ -364,4 +364,9 @@ static void chassis_open_set_control(fp32 *vx_set, fp32 *vy_set, fp32 *wz_set, c
     *vy_set = -chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_Y_CHANNEL] * CHASSIS_OPEN_RC_SCALE;
     *wz_set = -chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_WZ_CHANNEL] * CHASSIS_OPEN_RC_SCALE;
     return;
+}
+
+uint8_t isChassisSwing()
+{
+	return swing_flag;
 }

@@ -39,3 +39,5 @@
 ..\obj\mainfocus_usart.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 ..\obj\mainfocus_usart.o: ..\FWLIB\inc\stm32f4xx_sai.h
 ..\obj\mainfocus_usart.o: ..\Task\Auto_attackTask.h
+..\obj\mainfocus_usart.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\mainfocus_usart.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

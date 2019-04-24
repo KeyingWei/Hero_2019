@@ -22,11 +22,16 @@ Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
 D:\RMDownload\infantry2019\Hero\Hero_FreeRTOS_2019\USER\Hero2019.uvprojx
-Project File Date:  04/18/2019
+Project File Date:  04/23/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'D:\Software\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Infatry_V2'
+compiling gimbal_behaviour.c...
+compiling chassis_task.c...
+..\App\chassis_task.c(302): warning:  #1295-D: Deprecated declaration IsGimbalMotionless - give arg types
+  extern uint8_t IsGimbalMotionless();
+..\App\chassis_task.c: 1 warning, 0 errors
 compiling gimbal_task.c...
 ..\App\gimbal_task.c(60): warning:  #550-D: variable "PreviousWakeTime"  was set but never used
   	TickType_t PreviousWakeTime;
@@ -38,16 +43,16 @@ compiling gimbal_task.c...
       int16_t temp_max_ecd = 0, temp_min_ecd = 0, temp_ecd = 0;
 ..\App\gimbal_task.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=79620 RO-data=3840 RW-data=628 ZI-data=92468  
+Program Size: Code=79908 RO-data=3840 RW-data=620 ZI-data=92500  
 FromELF: creating hex file...
-"..\OBJ\CAN.axf" - 0 Error(s), 4 Warning(s).
+"..\OBJ\CAN.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_Infatry_V2
   D:\Software\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:05
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
