@@ -30,6 +30,8 @@
         Gimbal_PID_clear(&(gimbal_clear)->gimbal_pitch_motor.gimbal_motor_relative_angle_pid); \
         PID_clear(&(gimbal_clear)->gimbal_pitch_motor.gimbal_motor_gyro_pid);                  \
     }
+	
+static void J_scope_gimbal_test(void);
 
 //发送的can 指令
  int16_t Yaw_Can_Set_Current = 0, Pitch_Can_Set_Current = 0, Shoot_Can_Set_Current = 0;
@@ -75,7 +77,7 @@ void GIMBAL_task(void *pvParameters)
         GIMBAL_Feedback_Update(&gimbal_control);             //云台数据反馈
     }
 	
-	while(1)
+	while(1)  
 	{
 		 GIMBAL_Set_Mode(&gimbal_control);                    //设置云台控制模式
 		 GIMBAL_Mode_Change_Control_Transit(&gimbal_control); //控制模式切换 控制数据过渡
@@ -121,11 +123,15 @@ void GIMBAL_task(void *pvParameters)
 			CanSendMess(CAN1,SEND_ID205_207,gimbal_set_current); 
 			CanSendMess(CAN2,SEND_ID201_204,shoot_motot_set); 
 	   }
-		vTaskDelay(time_delay);
-     // vTaskDelayUntil(&PreviousWakeTime,TimerIncrement);
+		//vTaskDelay(time_delay);
+      vTaskDelayUntil(&PreviousWakeTime,TimerIncrement);
 
 #if INCLUDE_uxTaskGetStackHighWaterMark
         gimbal_high_water = uxTaskGetStackHighWaterMark(NULL);
+#endif	
+
+#if (GIMBAL_TEST_MODE )	
+         J_scope_gimbal_test();
 #endif	   
     }
 }
@@ -192,7 +198,6 @@ static void gimbal_motor_relative_angle_control(Gimbal_Motor_t *gimbal_motor)
 
 
 //云台控制状态使用不同控制pid
-float set_p, fdb_p,set_y,fdb_y;
 static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 {
 	static char last_aim_flag = 0,auto_flag = 0;
@@ -213,11 +218,11 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
         //gyro角度控制	 
 		if(gimbal_control_loop->auto_aim_flag == 1 &&  last_aim_flag == 0  && auto_flag == 0 )
 		{
-		   auto_flag = 1;
-		 //  last_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 
+		     auto_flag = 1;
 		}
 		else if(gimbal_control_loop->auto_aim_flag == 0 && last_aim_flag == 1 && auto_flag == 1)
 		{
+			//发生模式切换时，将设定值设为反馈值
 		    auto_flag = 0;
 		    gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set =  gimbal_control_loop->gimbal_yaw_motor.absolute_angle; 				
 		}
@@ -225,9 +230,13 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 		if(auto_flag == 1)
 		{			
 			gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set = 0;
+			//识别到的坐标系可能跟装甲的位置存在偏差，所以需加上一个偏移量，未识别到目标时需把该量清零
 			gimbal_control_loop->gimbal_yaw_motor.absolute_angle =  -rad_format(gimbal_control_loop->autodata->YawAxiaAngle);	
-		    set_y = 	gimbal_control_loop->gimbal_yaw_motor.absolute_angle_set;
-		    fdb_y = gimbal_control_loop->gimbal_yaw_motor.absolute_angle;		
+			
+			if(gimbal_control_loop->autodata->YawAxiaAngle == 0.0f)
+			{
+				gimbal_control_loop->gimbal_yaw_motor.absolute_angle = 0.0f;
+			}		
 		}
 			
         gimbal_motor_absolute_angle_control(&gimbal_control_loop->gimbal_yaw_motor);
@@ -252,18 +261,15 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
     else if (gimbal_control_loop->gimbal_pitch_motor.gimbal_motor_mode == GIMBAL_MOTOR_ENCONDE)
     {
         //gyro角度控制	 
-		if(gimbal_control_loop->auto_aim_flag == 1 &&  last_aim_flag == 0  )
-		{
-		   //last_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;  
-		}
-		else if(gimbal_control_loop->auto_aim_flag == 0 && last_aim_flag == 1)
+
+	   if(gimbal_control_loop->auto_aim_flag == 0 && last_aim_flag == 1)
 		{
 		   gimbal_control_loop->gimbal_pitch_motor.relative_angle_set =  gimbal_control_loop->gimbal_pitch_motor.relative_angle; 
 		}
 		
 		if(auto_flag == 1)
 		{		
-			 
+            //辅助射击模式下反馈置由妙算结算的坐标提供，设定值为零			
 			gimbal_control_loop->gimbal_pitch_motor.relative_angle_set = 0.0f;
 			gimbal_control_loop->gimbal_pitch_motor.relative_angle = - rad_format(gimbal_control_loop->autodata->PitchAxiaAngle  + 4.0f/180.0f * 3.14f);	
 		
@@ -271,10 +277,7 @@ static void GIMBAL_Control_loop(Gimbal_Control_t *gimbal_control_loop)
 			{
 				gimbal_control_loop->gimbal_pitch_motor.relative_angle = 0.0f;
 			}
-		   set_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle_set;
-		   fdb_p = gimbal_control_loop->gimbal_pitch_motor.relative_angle;
-		}
-		
+		}		
         gimbal_motor_relative_angle_control(&gimbal_control_loop->gimbal_pitch_motor);
     }
 	
@@ -576,7 +579,7 @@ static void calc_gimbal_cali(const Gimbal_Cali_t *gimbal_cali, uint16_t *yaw_off
         return;
     }
 
-    int16_t temp_max_ecd = 0, temp_min_ecd = 0, temp_ecd = 0;
+    int16_t temp_ecd = 0;//temp_max_ecd = 0, temp_min_ecd = 0, 
 
 #if YAW_TURN
     temp_ecd = gimbal_cali->min_yaw_ecd - gimbal_cali->max_yaw_ecd;
@@ -775,5 +778,26 @@ int8_t getEenmyColor()
    return switch_enemy_color;
 }
 
+#if GIMBAL_TEST_MODE
+int32_t yaw_ins_int_1000, pitch_ins_int_1000;
+int32_t yaw_ins_set_1000, pitch_ins_set_1000;
+int32_t pitch_relative_set_1000, pitch_relative_angle_1000;
+int32_t yaw_speed_int_1000, pitch_speed_int_1000;
+int32_t yaw_speed_set_int_1000, pitch_speed_set_int_1000;
+static void J_scope_gimbal_test(void)
+{
+    yaw_ins_int_1000 = (int32_t)(gimbal_control.gimbal_yaw_motor.absolute_angle * 1000);
+    yaw_ins_set_1000 = (int32_t)(gimbal_control.gimbal_yaw_motor.absolute_angle_set * 1000);
+    yaw_speed_int_1000 = (int32_t)(gimbal_control.gimbal_yaw_motor.motor_gyro * 1000);
+    yaw_speed_set_int_1000 = (int32_t)(gimbal_control.gimbal_yaw_motor.motor_gyro_set * 1000);
 
+    pitch_ins_int_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.absolute_angle * 1000);
+    pitch_ins_set_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.absolute_angle_set * 1000);
+    pitch_speed_int_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.motor_gyro * 1000);
+    pitch_speed_set_int_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.motor_gyro_set * 1000);
+    pitch_relative_angle_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.relative_angle * 1000);
+    pitch_relative_set_1000 = (int32_t)(gimbal_control.gimbal_pitch_motor.relative_angle_set * 1000);
+}
+
+#endif
 

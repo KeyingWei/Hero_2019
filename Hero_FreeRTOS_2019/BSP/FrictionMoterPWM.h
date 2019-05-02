@@ -4,8 +4,8 @@
 #define FRICTION_MOTER_L TIM2->CCR1
 #define FRICTION_MOTER_R TIM2->CCR2
 
-#define Fric_UP 1150
-#define Fric_DOWN 1100
+#define Fric_UP 1120
+#define Fric_DOWN 1120
 #define Fric_OFF 1000
 
 void FrictionMoterPWM_Init(void);

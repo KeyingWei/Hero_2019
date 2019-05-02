@@ -299,7 +299,7 @@ void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *ch
     *vy_set = chassis_move_rc_to_vector->chassis_cmd_slow_set_vy.out;
 }
 
-extern uint8_t IsGimbalMotionless();
+extern uint8_t IsGimbalMotionless(void);
 //设置遥控器输入控制量
 static void chassis_set_contorl(chassis_move_t *chassis_move_control)
 {
@@ -324,7 +324,7 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
         chassis_move_control->vy_set = -sin_yaw * vx_set + cos_yaw * vy_set;
         //设置控制相对云台角度
         chassis_move_control->chassis_relative_angle_set = rad_format(angle_set);
-        //计算旋转PID角速度
+        //计算旋转PID角速度 
         chassis_move_control->wz_set = -PID_Calc(&chassis_move_control->chassis_angle_pid, chassis_move_control->chassis_yaw_motor->relative_angle, chassis_move_control->chassis_relative_angle_set);
         
 		if(IsGimbalMotionless())
@@ -435,14 +435,14 @@ static void CalcChassisMaxOutput()
 {
 	float error_out;	
 	float maxout;
-	error_out = (60.0f - GetPowerBuffer()) * 0.0167f;	
+	error_out = (60.0f - GetPowerBuffer()) * 0.0195f;	
 	maxout = 16000.0f * ( 1.0f - error_out);
 	
 
 	if(maxout >= M3505_MOTOR_SPEED_PID_MAX_OUT)
 		maxout = M3505_MOTOR_SPEED_PID_MAX_OUT;
-	else if(maxout <= 1000)
-		maxout = 1000;
+	else if(maxout <= 600)
+		maxout = 600;
 	
 	for(char i = 0;i<4;i++)
 	{

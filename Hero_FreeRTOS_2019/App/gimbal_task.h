@@ -71,8 +71,8 @@
 #define TestKeyBoard KEY_PRESSED_OFFSET_R
 
 //辅助射击按键
-#define VisonONKeyBoard KEY_PRESSED_OFFSET_Z
-#define VisonOFFKeyBoard KEY_PRESSED_OFFSET_X
+#define VisonONKeyBoard KEY_PRESSED_OFFSET_Q
+#define VisonOFFKeyBoard KEY_PRESSED_OFFSET_E
 
 #define SwitchEnemyColor_Red_KeyBoard KEY_PRESSED_OFFSET_R
 #define SwitchEnemyColor_Blue_KeyBoard KEY_PRESSED_OFFSET_G
@@ -97,7 +97,7 @@
 #define GIMBAL_CONTROL_TIME 1
 
 //云台测试模式 宏定义 0 为不使用测试模式
-#define GIMBAL_TEST_MODE 0
+#define GIMBAL_TEST_MODE 1
 
 //电机是否反装
 #define PITCH_TURN 1

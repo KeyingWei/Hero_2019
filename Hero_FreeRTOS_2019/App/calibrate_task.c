@@ -398,3 +398,5 @@ void getFlashLatitude(float *latitude)
         *latitude = Latitude_At_ShenZhen;
     }
 }
+
+

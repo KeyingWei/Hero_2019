@@ -49,7 +49,7 @@ static const RC_ctrl_t *shoot_rc; //遥控器指针
  Shoot_Motor_t trigger_motor[3],fric_motor[2];          //射击数据
  shoot_mode_e shoot_mode = SHOOT_STOP; //射击状态机
 
-float    freOfSmallBullet =  4.5,    freOfBigBullet = 8.0f,speedOfBigBullet = 8.0f;
+float    freOfSmallBullet =  4.5,    freOfBigBullet = 8.0f,speedOfBigBullet = 15.0f;
 int16_t  speedOfSmallBullet =  Fric_DOWN;
 
 char only_one_bulet_flag = 0;
@@ -227,11 +227,11 @@ int16_t *shoot_control_loop(void)
 				trigger_motor[1].speed_set = freOfSmallBullet;
 				trigger_motor[1].run_time  = xTaskGetTickCount();
 				//堵转判断
-				if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > BLOCK_TIME && trigger_motor[1].run_time - trigger_motor[1].cmd_time < REVERSE_TIME + BLOCK_TIME && fabs(trigger_motor[1].speed) < (4.5f * 0.3f))
+				if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > BLOCK_TIME && trigger_motor[1].run_time - trigger_motor[1].cmd_time < 500 + BLOCK_TIME && fabs(trigger_motor[1].speed) < (5.5f * 0.3f))
 				{
 					trigger_motor[1].speed_set = -Ready_Trigger_Speed;
 				}
-				else if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > REVERSE_TIME + BLOCK_TIME || fabs(trigger_motor[1].speed) > REVERSE_SPEED_LIMIT)
+				else if (trigger_motor[1].run_time - trigger_motor[1].cmd_time > 500 + BLOCK_TIME || fabs(trigger_motor[1].speed) > REVERSE_SPEED_LIMIT)
 				{
 					trigger_motor[1].cmd_time = xTaskGetTickCount();
 				}
@@ -245,7 +245,7 @@ int16_t *shoot_control_loop(void)
 		{
 			trigger_motor[1].set_angle = trigger_motor[1].angle;
 			trigger_motor[1].move_flag = 0;
-			trigger_motor[1].speed_set = 0;		  
+			trigger_motor[1].speed_set = 0;	     			
 		}
 		
 		//根据等级在准备超热量时停止拨弹轮
@@ -684,7 +684,7 @@ static void shoot_ready_control(void)
 			if (rad_format(trigger_motor[0].set_angle - trigger_motor[0].angle) > 0.05f)
 			{
 				//角度达到判断
-				trigger_motor[0].speed_set = ADD_BULLET_SPEED;
+				trigger_motor[0].speed_set = 2.05f;//ADD_BULLET_SPEED; 
 				trigger_motor[0].run_time = xTaskGetTickCount();
 				//堵转判断
 				if (trigger_motor[0].run_time - trigger_motor[0].cmd_time > BLOCK_TIME && trigger_motor[0].run_time - trigger_motor[0].cmd_time < REVERSE_TIME + BLOCK_TIME && fabs(trigger_motor[0].speed) < 1.5f)
@@ -763,9 +763,9 @@ static void SetShootFreAndSpeed()
    if(shoot_rc->key.v == KEY_PRESSED_OFFSET_C)
    {
 	   freOfSmallBullet   =  8.5f;
-	   speedOfSmallBullet =  1100;
+	   speedOfSmallBullet =  1150;
 	   freOfBigBullet     =  11.0f;
-	   speedOfBigBullet   =  8.0f;          
+	   speedOfBigBullet   =  15.0f;          
    }
    else if(shoot_rc->key.v == KEY_PRESSED_OFFSET_V)
    {
@@ -773,14 +773,14 @@ static void SetShootFreAndSpeed()
  	   freOfSmallBullet   =  6.5f;
 	   speedOfSmallBullet =  1200;
 	   freOfBigBullet     =  9.5f;
-	   speedOfBigBullet   =  10.0f;   
+	   speedOfBigBullet   =  15.0f;   
    }
    else if(shoot_rc->key.v == KEY_PRESSED_OFFSET_B)
    {
 	   //V键高射速低射频模式
  	   freOfSmallBullet   =  4.5f;
-	   speedOfSmallBullet =  1350;
+	   speedOfSmallBullet =  1300;
 	   freOfBigBullet     =  8.5f;
-	   speedOfBigBullet   =  12.0f;		
+	   speedOfBigBullet   =  15.0f;		
    }
 }

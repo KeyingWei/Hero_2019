@@ -30,7 +30,7 @@ static void LEDConfig(void)
 	GPIO_SetBits(GPIOG,GPIO_Pin_1 |GPIO_Pin_2|GPIO_Pin_3 | GPIO_Pin_4);
 	GPIO_SetBits(GPIOG,GPIO_Pin_5 |GPIO_Pin_6|GPIO_Pin_7 | GPIO_Pin_8);
 }
-
+/*
 static void Beep_PWM_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -71,7 +71,7 @@ static void Beep_PWM_Config(void)
 	
 	TIM_Cmd(TIM12,ENABLE);
 	TIM_CtrlPWMOutputs(TIM12,ENABLE);
-}
+}*/
 
 static void Key_init()
 {

@@ -386,11 +386,28 @@ static void gimbal_behavour_set(Gimbal_Control_t *gimbal_mode_set)
 	
 	if((gimbal_mode_set->gimbal_rc_ctrl->key.v & VisonONKeyBoard) != 0 )
 	{
-		gimbal_mode_set->auto_aim_flag = 1;		
+		//按下Q键且识别到目标时进入辅助射击模式
+		if(gimbal_mode_set->autodata->PitchAxiaAngle!=0.0f || gimbal_mode_set->autodata->YawAxiaAngle!=0.0f)
+			gimbal_mode_set->auto_aim_flag = 1;	
+		else 
+			gimbal_mode_set->auto_aim_flag = 0;	
 	}
 	else if((gimbal_mode_set->gimbal_rc_ctrl->key.v & VisonOFFKeyBoard) != 0 && gimbal_mode_set->auto_aim_flag == 1)
 	{
+		//按下E键强制退出辅助射击模式
 	    gimbal_mode_set->auto_aim_flag = 0;
+	}
+	
+	//辅助射击模式下 2s未识别到目标强制退出
+	if(gimbal_mode_set->auto_aim_flag == 1 && gimbal_mode_set->autodata->PitchAxiaAngle ==0 && gimbal_mode_set->autodata->YawAxiaAngle ==0 )
+	{
+		static uint16_t no_targe_cnt = 0;
+		no_targe_cnt++;
+		if(no_targe_cnt >= 2000)
+		{
+			no_targe_cnt = 0;
+		    gimbal_mode_set->auto_aim_flag = 0;
+		}
 	}
 	
 	if(gimbal_mode_set->auto_aim_flag == 1 && !switch_is_down(gimbal_mode_set->gimbal_rc_ctrl->rc.s[ModeChannel]))

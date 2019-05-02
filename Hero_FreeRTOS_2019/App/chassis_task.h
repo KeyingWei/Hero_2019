@@ -35,7 +35,7 @@
 //选择底盘状态 开关通道号
 #define MODE_CHANNEL 0
 //遥控器前进摇杆（max 660）转化成车体前进速度（m/s）的比例
-#define CHASSIS_VX_RC_SEN 0.0037f
+#define CHASSIS_VX_RC_SEN 0.0053f
 //遥控器左右摇杆（max 660）转化成车体左右速度（m/s）的比例
 #define CHASSIS_VY_RC_SEN 0.0035f
 //跟随底盘yaw模式下，遥控器的yaw遥杆（max 660）增加到车体角度的比例
@@ -76,9 +76,9 @@
 #define CHASSIS_MOTOR_RPM_TO_VECTOR_SEN M3508_MOTOR_RPM_TO_VECTOR
 
 //底盘电机最大速度
-#define MAX_WHEEL_SPEED 2.5f
+#define MAX_WHEEL_SPEED 3.5f
 //底盘运动过程最大前进速度
-#define NORMAL_MAX_CHASSIS_SPEED_X 2.5f
+#define NORMAL_MAX_CHASSIS_SPEED_X 3.5f
 //底盘运动过程最大平移速度
 #define NORMAL_MAX_CHASSIS_SPEED_Y 2.3f
 //底盘设置旋转速度，设置前后左右轮不同设定速度的比例分权 0为在几何中心，不需要补偿
@@ -91,7 +91,7 @@
 
 //底盘电机速度环PID
 #define M3505_MOTOR_SPEED_PID_KP 15000.0f
-#define M3505_MOTOR_SPEED_PID_KI 10.0f
+#define M3505_MOTOR_SPEED_PID_KI 3.0f
 #define M3505_MOTOR_SPEED_PID_KD 0.0f
 #define M3505_MOTOR_SPEED_PID_MAX_OUT MAX_MOTOR_CAN_CURRENT
 #define M3505_MOTOR_SPEED_PID_MAX_IOUT 2000.0f
